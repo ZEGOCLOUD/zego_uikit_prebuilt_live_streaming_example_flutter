@@ -8,11 +8,11 @@
 
 Host:
 
-![Host](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/host_3.gif)
+![Host](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/live/host4.gif)
 
 Audience:
 
-![Audience](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/audience_3.gif)
+![Host](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/live/audience4.gif)
 
 
 ## When do you need the Live Streaming Kit
