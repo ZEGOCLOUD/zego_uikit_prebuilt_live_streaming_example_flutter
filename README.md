@@ -9,7 +9,7 @@
 
 | Host | Audience |
 | --- | --- |
-|<img src="/Pics/ZegoUIKit/Flutter/live/host_3.gif" width="60%">|<img src="/Pics/ZegoUIKit/Flutter/live/audience_3.gif" width="60%">|
+|<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/host_3.gif" width="60%">|<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/audience_3.gif" width="60%">|
 
 
 
