@@ -113,7 +113,6 @@ class LivePage extends StatelessWidget {
                   ]
                 : const [],
           ),
-          useEndLiveStreamingButton: isHost,
         ),
       ),
     );
