@@ -6,9 +6,13 @@
 **Live Streaming Kit** is a feature-rich livestream component, which enables you to build custom live streaming into your apps with only a few lines of code. And you can also customize various live streaming features by configuring parameters.
 
 
-| Host | Audience |
-| --- | --- |
-|![Host](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/host_3.gif)|![Audience](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/audience_3.gif)|
+Host:
+
+![Host](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/host_3.gif)
+
+Audience:
+
+![Audience](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/audience_3.gif)
 
 
 ## When do you need the Live Streaming Kit
