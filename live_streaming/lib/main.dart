@@ -90,8 +90,8 @@ class LivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZegoUIKitPrebuiltLiveStreaming(
-      appID: 1 /*input your AppID*/,
-      appSign: "" /*input your AppSign*/,
+      appID:  /*input your AppID*/,
+      appSign:  /*input your AppSign*/,
       userID: localUserID,
       userName: 'user_$localUserID',
       liveID: liveID,
