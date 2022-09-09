@@ -6,13 +6,9 @@
 **Live Streaming Kit** is a feature-rich livestream component, which enables you to build custom live streaming into your apps with only a few lines of code. And you can also customize various live streaming features by configuring parameters.
 
 
-Host:
-
-![Host](images/host.gif)
-
-Audience:
-
-![Host](images/audience.gif)
+|Host|Audience|
+|---|---|
+|![Host](images/host.gif)|![Audience](images/audience.gif)|
 
 
 ## When do you need the Live Streaming Kit
