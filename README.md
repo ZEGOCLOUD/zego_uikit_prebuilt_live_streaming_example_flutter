@@ -6,11 +6,10 @@
 **Live Streaming Kit** is a feature-rich livestream component, which enables you to build custom live streaming into your apps with only a few lines of code. And you can also customize various live streaming features by configuring parameters.
 
 
-
 | Host | Audience |
 | --- | --- |
-|<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/host_3.gif" width="60%">|<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/audience_3.gif" width="60%">|
-
+|
+![1](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/host_3.gif)|![2](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/audience_3.gif)|
 
 
 ## When do you need the Live Streaming Kit
@@ -37,14 +36,14 @@
 
 - I want to get started: Follow the steps to get started swiftly.
 
-![QUICK START](https://docs.zegocloud.com/article/14846)
+[QUICK START](https://docs.zegocloud.com/article/14846)
 
 
 - To configure prebuilt UI for a custom experience:
 
-![Custom Prebuilt UI](https://docs.zegocloud.com/article/14878)
+[Custom Prebuilt UI](https://docs.zegocloud.com/article/14878)
 
 - To finest-grained build a livestream, you may try antoher one:
 
-![Live Streaming SDK](https://docs.zegocloud.com/article/7926)
+[Live Streaming SDK](https://docs.zegocloud.com/article/7926)
 
