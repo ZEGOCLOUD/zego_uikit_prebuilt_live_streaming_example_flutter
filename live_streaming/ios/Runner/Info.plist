@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We require camera access to connect to a call</string>
+	<string>We require camera access to connect to a live streaming</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We require microphone access to connect to a call</string>
+	<string>We require microphone access to connect to a live streaming</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>ZegoUlKitLiveStreaming</string>
+	<string>ZegoUIKitLiveStreaming</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

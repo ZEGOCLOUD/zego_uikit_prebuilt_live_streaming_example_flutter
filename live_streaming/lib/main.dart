@@ -11,7 +11,7 @@ import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_stre
 final String localUserID = Random().nextInt(10000).toString();
 
 /// Users who use the same liveID can join the same live streaming.
-const String liveID = "testLiveID";
+const String liveID = "live_id";
 
 void main() {
   runApp(const MyApp());
@@ -89,15 +89,17 @@ class LivePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ZegoUIKitPrebuiltLiveStreaming(
-      appID:  /*input your AppID*/,
-      appSign:  /*input your AppSign*/,
-      userID: localUserID,
-      userName: 'user_$localUserID',
-      liveID: liveID,
-      config: isHost
-          ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
-          : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
+    return SafeArea(
+      child: ZegoUIKitPrebuiltLiveStreaming(
+        appID: /*input your AppID*/,
+        appSign: /*input your AppSign*/,
+        userID: localUserID,
+        userName: 'user_$localUserID',
+        liveID: liveID,
+        config: isHost
+            ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
+            : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
+      ),
     );
   }
 }
