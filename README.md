@@ -32,8 +32,7 @@
 
 ## Recommended resources
 
-
-- I want to get started: Follow the steps to get started swiftly.
+- Want to get started? Follow the steps to get started swiftly:
   [QUICK START](https://docs.zegocloud.com/article/14846)
 
 
@@ -43,3 +42,4 @@
 - To finest-grained build a livestream, you may try antoher one:
   [Live Streaming SDK](https://docs.zegocloud.com/article/7926)
 
+- If you have any questions regarding bugs and feature requests, visit the [ZEGOCLOUD community](https://discord.gg/EtNRATttyp) or email us at global_support@zegocloud.com.
