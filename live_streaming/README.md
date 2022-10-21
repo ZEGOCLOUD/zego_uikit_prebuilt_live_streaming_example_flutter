@@ -98,8 +98,6 @@ To prevent the ZEGO SDK public class names from being obfuscated, please complet
 1. Create `proguard-rules.pro` file under [your_project > android > app] with content as show below:
 ```
 -keep class **.zego.** { *; }
--keep class **.zego.zim.**  { *; }
--keep class **.**.zego_zim.** { *; }
 ```
 
 2. Add the following config code to the release part of the `your_project/android/app/build.gradle` file.
