@@ -110,8 +110,12 @@ class LivePage extends StatelessWidget {
         userName: 'user_$localUserID',
         liveID: liveID,
         config: isHost
-            ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
-            : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
+            ? ZegoUIKitPrebuiltLiveStreamingConfig.host(
+                plugins: [ZegoUIKitSignalingPlugin()],
+              )
+            : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
+                plugins: [ZegoUIKitSignalingPlugin()],
+              ),
       ),
     );
   }

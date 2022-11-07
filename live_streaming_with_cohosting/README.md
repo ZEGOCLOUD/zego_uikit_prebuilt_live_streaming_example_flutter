@@ -45,8 +45,12 @@ Widget build(BuildContext context) {
          userName: 'user_name',
          liveID: 'live_id',
          config: isHost
-                 ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
-                 : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
+               ? ZegoUIKitPrebuiltLiveStreamingConfig.host(
+                  plugins: [ZegoUIKitSignalingPlugin()],
+               )
+               : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
+                  plugins: [ZegoUIKitSignalingPlugin()],
+               ),
       ),
    );
 }
@@ -79,16 +83,35 @@ Widget build(BuildContext context) {
    ```
 <img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_android.png" width=800>
 
-#### iOS
+#### iOS:
 
-Need add app permissions, open ·your_project/ios/Runner/Info.plist·, add the following code inside the "dict" tag:
+1. Add app permissions.
+
+a. open the `your_project/ios/Podfile` file, and add the following to the `post_install do |installer|` part:
 
 ```plist
-<key>NSCameraUsageDescription</key>
-<string>We require camera access to connect to a live</string>
-<key>NSMicrophoneUsageDescription</key>
-<string>We require microphone access to connect to a live</string>
+    # Start of the permission_handler configuration
+    target.build_configurations.each do |config|
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+        'PERMISSION_CAMERA=1',
+        'PERMISSION_MICROPHONE=1',
+      ]
+    end
+    # End of the permission_handler configuration
 ```
+
+<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_podfile.png" width=800>
+
+b. open the `your_project/ios/Runner/Info.plist` file, and add the following to the `dict` part:
+
+```plist
+    <key>NSCameraUsageDescription</key>
+    <string>We require camera access to connect to a live</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We require microphone access to connect to a live</string>
+```
+
 <img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_ios.png" width=800>
 
 #### Turn off some classes's confusion
