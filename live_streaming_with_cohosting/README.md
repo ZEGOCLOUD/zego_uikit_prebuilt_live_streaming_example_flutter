@@ -15,7 +15,7 @@ This will add a line like this to your project's `pubspec.yaml` file (and Flutte
 
 ```dart
 dependencies:
-  zego_uikit_prebuilt_live_streaming: ^1.2.0 # Add this line
+  zego_uikit_prebuilt_live_streaming: ^1.2.1 # Add this line
 ```
 
 ### Import the SDK
