@@ -15,7 +15,7 @@ This will add a line like this to your project's `pubspec.yaml` file (and Flutte
 
 ```dart
 dependencies:
-  zego_uikit_prebuilt_live_streaming: ^1.2.1 # Add this line
+  zego_uikit_prebuilt_live_streaming: ^1.2.2 # Add this line
 ```
 
 ### Import the SDK
@@ -142,7 +142,7 @@ Now you can simply click the "Run" or "Debug" button to build and run your App o
 ## Resources
 
 <div class="md-grid-list-box">
-  <a href="https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_call_example_flutter/tree/master/live_streaming" class="md-grid-item" target="_blank">
+  <a href="https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_cohosting" class="md-grid-item" target="_blank">
     <div class="grid-title">Sample code</div>
     <div class="grid-desc">Click here to get the complete sample code.</div>
   </a>
