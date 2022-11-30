@@ -30,6 +30,7 @@ class HomePage extends StatelessWidget {
   /// Users who use the same liveID can join the same live streaming.
   final liveTextCtrl =
       TextEditingController(text: Random().nextInt(10000).toString());
+  final useVideoViewAspectFillNotifier = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,27 @@ class HomePage extends StatelessWidget {
           children: [
             Text('User ID:$localUserID'),
             const Text('Please test with two or more devices'),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text("Layout : "),
+                  switchDropList<bool>(
+                    useVideoViewAspectFillNotifier,
+                    [
+                      true,
+                      false,
+                    ],
+                    (bool isUseVideoViewAspectFill) {
+                      return Text(isUseVideoViewAspectFill
+                          ? "AspectFill"
+                          : "AspectFit");
+                    },
+                  ),
+                ],
+              ),
+            ),
             TextFormField(
               controller: liveTextCtrl,
               decoration: const InputDecoration(labelText: "join a live by id"),
@@ -83,7 +105,11 @@ class HomePage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LivePage(liveID: liveID, isHost: isHost),
+        builder: (context) => LivePage(
+          liveID: liveID,
+          isHost: isHost,
+          useVideoViewAspectFill: useVideoViewAspectFillNotifier.value,
+        ),
       ),
     );
   }
@@ -93,11 +119,13 @@ class HomePage extends StatelessWidget {
 class LivePage extends StatelessWidget {
   final String liveID;
   final bool isHost;
+  final bool useVideoViewAspectFill;
 
   const LivePage({
     Key? key,
     required this.liveID,
     this.isHost = false,
+    this.useVideoViewAspectFill = true,
   }) : super(key: key);
 
   @override
@@ -109,14 +137,42 @@ class LivePage extends StatelessWidget {
         userID: localUserID,
         userName: 'user_$localUserID',
         liveID: liveID,
-        config: isHost
+        config: (isHost
             ? ZegoUIKitPrebuiltLiveStreamingConfig.host(
                 plugins: [ZegoUIKitSignalingPlugin()],
               )
             : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
                 plugins: [ZegoUIKitSignalingPlugin()],
-              ),
+              ))
+          ..audioVideoViewConfig.useVideoViewAspectFill =
+              useVideoViewAspectFill,
       ),
     );
   }
+}
+
+Widget switchDropList<T>(
+  ValueNotifier<T> notifier,
+  List<T> itemValues,
+  Widget Function(T value) widgetBuilder,
+) {
+  return ValueListenableBuilder<T>(
+      valueListenable: notifier,
+      builder: (context, value, _) {
+        return DropdownButton<T>(
+          value: value,
+          icon: const Icon(Icons.keyboard_arrow_down),
+          items: itemValues.map((T itemValue) {
+            return DropdownMenuItem(
+              value: itemValue,
+              child: widgetBuilder(itemValue),
+            );
+          }).toList(),
+          onChanged: (T? newValue) {
+            if (newValue != null) {
+              notifier.value = newValue;
+            }
+          },
+        );
+      });
 }
