@@ -114,7 +114,7 @@ Now you can simply click the "Run" or "Debug" button to build and run your App o
 
 ## Related guide
 
-[Custom prebuilt UI](!ZEGOUIKIT_Custom_prebuilt_UI)
+[Custom prebuilt UI](https://docs.zegocloud.com/article/14878)
 
 ## Resources
 
