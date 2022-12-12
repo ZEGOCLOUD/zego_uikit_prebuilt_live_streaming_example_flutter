@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var buttonStyle = ElevatedButton.styleFrom(
       fixedSize: const Size(120, 60),
-      primary: const Color(0xff2C2F3E).withOpacity(0.6),
+      backgroundColor: const Color(0xff2C2F3E).withOpacity(0.6),
     );
 
     return Scaffold(
@@ -137,16 +137,117 @@ class LivePage extends StatelessWidget {
         userID: localUserID,
         userName: 'user_$localUserID',
         liveID: liveID,
-        config: (isHost
-            ? ZegoUIKitPrebuiltLiveStreamingConfig.host(
+        config: isHost
+            ? (ZegoUIKitPrebuiltLiveStreamingConfig.host(
+                plugins: [ZegoUIKitSignalingPlugin()],
+              )..audioVideoViewConfig.foregroundBuilder =
+                hostAudioVideoViewForegroundBuilder)
+            : (ZegoUIKitPrebuiltLiveStreamingConfig.audience(
                 plugins: [ZegoUIKitSignalingPlugin()],
               )
-            : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
-                plugins: [ZegoUIKitSignalingPlugin()],
-              ))
+              ..onTurnOnYourCameraConfirmation = (BuildContext context) {
+                return onTurnOnAudienceDeviceConfirmation(context, true);
+              }
+              ..onTurnOnYourMicrophoneConfirmation = (BuildContext context) {
+                return onTurnOnAudienceDeviceConfirmation(context, false);
+              })
           ..audioVideoViewConfig.useVideoViewAspectFill =
               useVideoViewAspectFill,
       ),
+    );
+  }
+
+  Image prebuiltImage(String name) {
+    return Image.asset(name, package: "zego_uikit_prebuilt_live_streaming");
+  }
+
+  Widget hostAudioVideoViewForegroundBuilder(
+      BuildContext context, Size size, ZegoUIKitUser? user, Map extraInfo) {
+    if (user == null || user?.id == localUserID) {
+      return Container();
+    }
+
+    const String toolbarCameraNormal = 'assets/icons/toolbar_camera_normal.png';
+    const String toolbarCameraOff = 'assets/icons/toolbar_camera_off.png';
+    const String toolbarMicNormal = 'assets/icons/toolbar_mic_normal.png';
+    const String toolbarMicOff = 'assets/icons/toolbar_mic_off.png';
+    return Positioned(
+      top: 15,
+      right: 0,
+      child: Row(
+        children: [
+          ValueListenableBuilder<bool>(
+            valueListenable: ZegoUIKit().getCameraStateNotifier(user.id),
+            builder: (context, isCameraEnabled, _) {
+              return GestureDetector(
+                onTap: () {
+                  ZegoUIKit().turnCameraOn(!isCameraEnabled, userID: user.id);
+                },
+                child: SizedBox(
+                  width: size.width * 0.4,
+                  height: size.width * 0.4,
+                  child: prebuiltImage(
+                    isCameraEnabled ? toolbarCameraNormal : toolbarCameraOff,
+                  ),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: size.width * 0.1),
+          ValueListenableBuilder<bool>(
+            valueListenable: ZegoUIKit().getMicrophoneStateNotifier(user.id),
+            builder: (context, isMicrophoneEnabled, _) {
+              return GestureDetector(
+                onTap: () {
+                  ZegoUIKit()
+                      .turnMicrophoneOn(!isMicrophoneEnabled, userID: user.id);
+                },
+                child: SizedBox(
+                  width: size.width * 0.4,
+                  height: size.width * 0.4,
+                  child: prebuiltImage(
+                    isMicrophoneEnabled ? toolbarMicNormal : toolbarMicOff,
+                  ),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<bool> onTurnOnAudienceDeviceConfirmation(
+    BuildContext context,
+    bool isCameraOrMicrophone,
+  ) async {
+    var textStyle = const TextStyle(fontSize: 10, color: Colors.white70);
+    return await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.blue[900]!.withOpacity(0.9),
+          title: Text(
+              "You have a request to turn on your ${isCameraOrMicrophone ? "camera" : "microphone"}",
+              style: textStyle),
+          content: Text(
+              "Do you agree to turn on the ${isCameraOrMicrophone ? "camera" : "microphone"}?",
+              style: textStyle),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel", style: textStyle),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            ElevatedButton(
+              child: Text("OK", style: textStyle),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
