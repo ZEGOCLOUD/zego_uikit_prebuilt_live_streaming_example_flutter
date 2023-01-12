@@ -148,7 +148,8 @@ class LivePage extends StatelessWidget {
               ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
                 return onTurnOnAudienceDeviceConfirmation(context, true);
               }
-              ..onMicrophoneTurnOnByOthersConfirmation = (BuildContext context) {
+              ..onMicrophoneTurnOnByOthersConfirmation =
+                  (BuildContext context) {
                 return onTurnOnAudienceDeviceConfirmation(context, false);
               })
           ..audioVideoViewConfig.useVideoViewAspectFill =
