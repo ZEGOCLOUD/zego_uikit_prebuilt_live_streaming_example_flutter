@@ -167,7 +167,24 @@ Open the file `your_project/app/src/main/AndroidManifest.xml`, and add the follo
    ```
     <img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_android.png" width=800>
 
-3. Prevent code obfuscation.
+3. Add app permission.
+Open the file `your_project/app/src/main/AndroidManifest.xml`, and add the following:
+
+   ```xml
+   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+   <uses-permission android:name="android.permission.RECORD_AUDIO" />
+   <uses-permission android:name="android.permission.INTERNET" />
+   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+   <uses-permission android:name="android.permission.CAMERA" />
+   <uses-permission android:name="android.permission.BLUETOOTH" />
+   <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+   <uses-permission android:name="android.permission.WAKE_LOCK" />
+   ```
+    <img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_android.png" width=800>
+
+4. Prevent code obfuscation.
 
 To prevent obfuscation of the SDK public class names, do the following:
 
@@ -175,6 +192,7 @@ a. In your project's `your_project > android > app` folder, create a `proguard-r
 
 <pre style="background-color: #011627; border-radius: 8px; padding: 25px; color: white"><div>
 -keep class **.zego.** { *; }
+-keep class **.**.zego_zpns.** { *; }
 </div></pre>
 
 b. Add the following config code to the `release` part of the `your_project/android/app/build.gradle` file.
@@ -184,7 +202,7 @@ b. Add the following config code to the `release` part of the `your_project/andr
 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 </div></pre>
 
-![android_class_confusion.png](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/android_class_confusion.png)
+![android_class_confusion.png](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/android_class_confusion_zpns.png)
 
 
 - iOS:
