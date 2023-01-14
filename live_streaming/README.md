@@ -55,7 +55,7 @@ To finest-grained build a live stream app, you may try our [Live Streaming SDK](
 
 Watch the video as belowed:
 
-[![Watch the video](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/videos/How_to_build_live_streaming_using_Flutter.png)](https://storage.zego.im/sdk-doc/doc/video/ZegoUIKit/How_to_build_live_streaming_using_Flutter.mp4)
+[![Watch the video](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/videos/How_to_build_live_streaming_using_Flutter.png)](https://www.youtube.com/watch?v=uVnanx2Q2lM)
 
 ## Integrate the SDK
 
