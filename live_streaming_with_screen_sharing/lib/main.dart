@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
-import 'secret.dart';
 
 /// Note that the userID needs to be globally unique,
 final String localUserID = Random().nextInt(100000).toString();
@@ -133,8 +132,8 @@ class LivePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
-        appID: YourSecret.appID /*input your AppID*/,
-        appSign: YourSecret.appSign /*input your AppSign*/,
+        appID: YourAppID /*input your AppID*/,
+        appSign: YourSecret /*input your AppSign*/,
         userID: localUserID,
         userName: 'user_$localUserID',
         liveID: liveID,
