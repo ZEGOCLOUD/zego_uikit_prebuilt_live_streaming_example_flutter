@@ -39,6 +39,7 @@ class LivePage extends StatelessWidget {
             : (ZegoUIKitPrebuiltLiveStreamingConfig.audience(
                 plugins: [ZegoUIKitSignalingPlugin()],
               )
+              ..audioVideoViewConfig.useVideoViewAspectFill = false
               ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
                 return onTurnOnAudienceDeviceConfirmation(
                   context,
