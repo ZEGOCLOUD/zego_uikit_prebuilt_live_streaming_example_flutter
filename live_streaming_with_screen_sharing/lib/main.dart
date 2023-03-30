@@ -3,10 +3,12 @@ import 'dart:math';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 // Package imports:
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+
+import 'secret.dart';
 
 /// Note that the userID needs to be globally unique,
 final String localUserID = Random().nextInt(100000).toString();
@@ -52,7 +54,7 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text("Layout : "),
+                  const Text('Layout : '),
                   switchDropList<bool>(
                     useVideoViewAspectFillNotifier,
                     [
@@ -61,8 +63,8 @@ class HomePage extends StatelessWidget {
                     ],
                     (bool isUseVideoViewAspectFill) {
                       return Text(isUseVideoViewAspectFill
-                          ? "AspectFill"
-                          : "AspectFit");
+                          ? 'AspectFill'
+                          : 'AspectFit');
                     },
                   ),
                 ],
@@ -70,7 +72,7 @@ class HomePage extends StatelessWidget {
             ),
             TextFormField(
               controller: liveTextCtrl,
-              decoration: const InputDecoration(labelText: "join a live by id"),
+              decoration: const InputDecoration(labelText: 'join a live by id'),
             ),
             const SizedBox(height: 20),
             // click me to navigate to LivePage
@@ -100,7 +102,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  jumpToLivePage(BuildContext context,
+  void jumpToLivePage(BuildContext context,
       {required String liveID, required bool isHost}) {
     Navigator.push(
       context,
@@ -132,8 +134,8 @@ class LivePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
-        appID: YourAppID /*input your AppID*/,
-        appSign: YourSecret /*input your AppSign*/,
+        appID: YourSecret.appID /*input your AppID*/,
+        appSign: YourSecret.appSign /*input your AppSign*/,
         userID: localUserID,
         userName: 'user_$localUserID',
         liveID: liveID,
@@ -159,7 +161,7 @@ class LivePage extends StatelessWidget {
   }
 
   Image prebuiltImage(String name) {
-    return Image.asset(name, package: "zego_uikit_prebuilt_live_streaming");
+    return Image.asset(name, package: 'zego_uikit_prebuilt_live_streaming');
   }
 
   Widget hostAudioVideoViewForegroundBuilder(
@@ -237,11 +239,11 @@ class LivePage extends StatelessWidget {
               style: textStyle),
           actions: [
             ElevatedButton(
-              child: Text("Cancel", style: textStyle),
+              child: Text('Cancel', style: textStyle),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             ElevatedButton(
-              child: Text("OK", style: textStyle),
+              child: Text('OK', style: textStyle),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
