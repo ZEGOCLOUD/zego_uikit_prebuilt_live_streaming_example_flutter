@@ -1,16 +1,13 @@
 # live_streaming_with_pkbattles
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+Before you begin, make sure you complete the following:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Follow the integration steps by referring to the [Quick start with co-hosting\|_blank]([#14882](https://docs.zegocloud.com/article/15580)).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- ⚠️⚠️⚠️ **Contact ZEGOCLOOUD Technical Support to enable the PK battle feature.**
+
+Document: [PK battles](https://docs.zegocloud.com/article/15580)
