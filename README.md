@@ -13,7 +13,7 @@
 | --- | --- |
 |![host_3.gif](images/host_3.gif)|![audience_3](images/audience_3.gif)|
 
-
+[![ZEGOCLOUD Live Streaming Feature Intro](https://res.cloudinary.com/marcomontalbano/image/upload/v1682408345/video_to_markdown/images/youtube--yt3NkjIBoMA-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/yt3NkjIBoMA "ZEGOCLOUD Live Streaming Feature Intro")
 
 ## When do you need the Live Streaming Kit
 
