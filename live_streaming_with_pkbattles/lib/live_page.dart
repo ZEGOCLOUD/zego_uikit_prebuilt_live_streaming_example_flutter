@@ -41,8 +41,9 @@ class _LivePageState extends State<LivePage> {
       );
     }
 
-    config.onLiveStreamingStateUpdate =
-        (state) => liveStreamingState.value = state;
+    config.onLiveStreamingStateUpdate = (state) {
+      liveStreamingState.value = state;
+    };
 
     return SafeArea(
       child: Scaffold(
@@ -67,7 +68,8 @@ class _LivePageState extends State<LivePage> {
     return ValueListenableBuilder(
       valueListenable: liveStreamingState,
       builder: (context, value, Widget? child) {
-        if (value == ZegoLiveStreamingState.idle) {
+        if ((value == ZegoLiveStreamingState.idle) ||
+            (value == ZegoLiveStreamingState.ended)) {
           return const SizedBox.shrink();
         }
         return Positioned(
