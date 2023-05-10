@@ -5,9 +5,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
-// Package imports:
-import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-
 import 'secret.dart';
 
 /// Note that the userID needs to be globally unique,
@@ -134,38 +131,37 @@ class LivePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
-          appID: YourAppID,
-          appSign: YourAppSign,
-          userID: localUserID,
-          userName: 'user_$localUserID',
-          liveID: liveID,
-
-          // Modify your custom configurations here.
-          config: isHost
-              ? (ZegoUIKitPrebuiltLiveStreamingConfig.host()
-                    ..layout = ZegoLayout.gallery(
-                        showScreenSharingFullscreenModeToggleButtonRules:
-                            ZegoShowFullscreenModeToggleButtonRules.alwaysShow,
-                        showNewScreenSharingViewInFullscreenMode:
-                            false) //  Set the layout to gallery mode. and configure the [showNewScreenSharingViewInFullscreenMode] and [showScreenSharingFullscreenModeToggleButtonRules].
-                    ..bottomMenuBarConfig =
-                        ZegoBottomMenuBarConfig(hostButtons: [
-                      ZegoMenuBarButtonName.toggleScreenSharingButton,
-                      ZegoMenuBarButtonName.toggleMicrophoneButton,
-                      ZegoMenuBarButtonName.toggleCameraButton
-                    ]) // Add a screen sharing toggle button.
-                  )
-              : (ZegoUIKitPrebuiltLiveStreamingConfig.audience()
-                ..layout = ZegoLayout.gallery(
-                    showScreenSharingFullscreenModeToggleButtonRules:
-                        ZegoShowFullscreenModeToggleButtonRules.alwaysShow,
-                    showNewScreenSharingViewInFullscreenMode:
-                        false) // Set the layout to gallery mode. and configure the [showNewScreenSharingViewInFullscreenMode] and [showScreenSharingFullscreenModeToggleButtonRules].
-                ..bottomMenuBarConfig = ZegoBottomMenuBarConfig(hostButtons: [
-                  ZegoMenuBarButtonName.toggleScreenSharingButton,
-                  ZegoMenuBarButtonName.coHostControlButton
-                ]) // Add a screen sharing toggle button.
-              )),
+        appID: YourSecret.appID /*input your AppID*/,
+        appSign: YourSecret.appSign /*input your AppSign*/,
+        userID: localUserID,
+        userName: 'user_$localUserID',
+        liveID: liveID,
+        // Modify your custom configurations here.
+        config: isHost
+            ? (ZegoUIKitPrebuiltLiveStreamingConfig.host()
+                  ..layout = ZegoLayout.gallery(
+                      showScreenSharingFullscreenModeToggleButtonRules:
+                          ZegoShowFullscreenModeToggleButtonRules.alwaysShow,
+                      showNewScreenSharingViewInFullscreenMode:
+                          false) //  Set the layout to gallery mode. and configure the [showNewScreenSharingViewInFullscreenMode] and [showScreenSharingFullscreenModeToggleButtonRules].
+                  ..bottomMenuBarConfig = ZegoBottomMenuBarConfig(hostButtons: [
+                    ZegoMenuBarButtonName.toggleScreenSharingButton,
+                    ZegoMenuBarButtonName.toggleMicrophoneButton,
+                    ZegoMenuBarButtonName.toggleCameraButton
+                  ]) // Add a screen sharing toggle button.
+                )
+            : (ZegoUIKitPrebuiltLiveStreamingConfig.audience()
+              ..layout = ZegoLayout.gallery(
+                  showScreenSharingFullscreenModeToggleButtonRules:
+                      ZegoShowFullscreenModeToggleButtonRules.alwaysShow,
+                  showNewScreenSharingViewInFullscreenMode:
+                      false) // Set the layout to gallery mode. and configure the [showNewScreenSharingViewInFullscreenMode] and [showScreenSharingFullscreenModeToggleButtonRules].
+              ..bottomMenuBarConfig = ZegoBottomMenuBarConfig(hostButtons: [
+                ZegoMenuBarButtonName.toggleScreenSharingButton,
+                ZegoMenuBarButtonName.coHostControlButton
+              ]) // Add a screen sharing toggle button.
+            ),
+      ),
     );
   }
 
@@ -179,10 +175,10 @@ class LivePage extends StatelessWidget {
       return Container();
     }
 
-    const String toolbarCameraNormal = 'assets/icons/toolbar_camera_normal.png';
-    const String toolbarCameraOff = 'assets/icons/toolbar_camera_off.png';
-    const String toolbarMicNormal = 'assets/icons/toolbar_mic_normal.png';
-    const String toolbarMicOff = 'assets/icons/toolbar_mic_off.png';
+    const toolbarCameraNormal = 'assets/icons/toolbar_camera_normal.png';
+    const toolbarCameraOff = 'assets/icons/toolbar_camera_off.png';
+    const toolbarMicNormal = 'assets/icons/toolbar_mic_normal.png';
+    const toolbarMicOff = 'assets/icons/toolbar_mic_off.png';
     return Positioned(
       top: 15,
       right: 0,

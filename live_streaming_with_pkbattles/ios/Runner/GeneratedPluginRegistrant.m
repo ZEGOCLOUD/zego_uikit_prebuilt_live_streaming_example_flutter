@@ -48,6 +48,12 @@
 @import zego_express_engine;
 #endif
 
+#if __has_include(<zego_uikit_signaling_plugin/ZegoUikitSignalingPlugin.h>)
+#import <zego_uikit_signaling_plugin/ZegoUikitSignalingPlugin.h>
+#else
+@import zego_uikit_signaling_plugin;
+#endif
+
 #if __has_include(<zego_zim/ZegoZimPlugin.h>)
 #import <zego_zim/ZegoZimPlugin.h>
 #else
@@ -70,6 +76,7 @@
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [WakelockPlugin registerWithRegistrar:[registry registrarForPlugin:@"WakelockPlugin"]];
   [ZegoExpressEnginePlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoExpressEnginePlugin"]];
+  [ZegoUikitSignalingPlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoUikitSignalingPlugin"]];
   [ZegoZimPlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoZimPlugin"]];
   [ZegoZpnsPlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoZpnsPlugin"]];
 }

@@ -5,7 +5,7 @@ import 'package:live_streaming/constants.dart';
 // Package imports:
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
-class LivePage extends StatelessWidget {
+class LivePage extends StatefulWidget {
   final String liveID;
   final bool isHost;
 
@@ -16,6 +16,19 @@ class LivePage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => LivePageState();
+}
+
+class LivePageState extends State<LivePage> {
+  ZegoUIKitPrebuiltLiveStreamingController? liveController;
+
+  @override
+  void initState() {
+    super.initState();
+    liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
@@ -23,8 +36,9 @@ class LivePage extends StatelessWidget {
         appSign: yourAppSign /*input your AppSign*/,
         userID: localUserID,
         userName: 'user_$localUserID',
-        liveID: liveID,
-        config: isHost
+        liveID: widget.liveID,
+        controller: liveController,
+        config: widget.isHost
             ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
             : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
       ),
