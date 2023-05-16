@@ -12,8 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  zego_uikit_prebuilt_live_streaming: ^2.5.5
-  zego_uikit_signaling_plugin: ^2.1.4
+  zego_uikit: ^2.5.7
+  zego_uikit_prebuilt_live_streaming: ^2.5.10
+  zego_uikit_signaling_plugin: ^2.1.5
 
   cupertino_icons: ^1.0.2
 

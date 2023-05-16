@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:live_streaming/home_page.dart';
 
 // Package imports:
-import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+import 'package:zego_uikit/zego_uikit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

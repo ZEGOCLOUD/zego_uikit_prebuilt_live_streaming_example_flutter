@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_streaming_with_pkbattles/home_page.dart';
-import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+
+import 'package:zego_uikit/zego_uikit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

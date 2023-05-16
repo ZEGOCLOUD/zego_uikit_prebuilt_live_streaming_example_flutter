@@ -7,6 +7,7 @@ version: 1.2.0+1
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -14,8 +15,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_screenutil: ">=5.5.3+2 <5.6.1"
 
-  zego_uikit_prebuilt_live_streaming: ^2.5.5
-  zego_uikit_signaling_plugin: ^2.1.4
+  zego_uikit: ^2.5.7
+  zego_uikit_signaling_plugin: ^2.1.5
+  zego_uikit_prebuilt_live_streaming: ^2.5.10
 
 dev_dependencies:
   flutter_test:

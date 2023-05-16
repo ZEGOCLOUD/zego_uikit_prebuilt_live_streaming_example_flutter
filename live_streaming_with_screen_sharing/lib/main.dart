@@ -4,6 +4,7 @@ import 'dart:math';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+import 'package:zego_uikit/zego_uikit.dart';
 
 import 'secret.dart';
 
@@ -33,9 +34,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var buttonStyle = ElevatedButton.styleFrom(
+    final buttonStyle = ElevatedButton.styleFrom(
       fixedSize: const Size(120, 60),
-      primary: const Color(0xff2C2F3E).withOpacity(0.6),
+      // primary: const Color(0xff2C2F3E).withOpacity(0.6),
     );
 
     return Scaffold(
@@ -229,7 +230,7 @@ class LivePage extends StatelessWidget {
     BuildContext context,
     bool isCameraOrMicrophone,
   ) async {
-    var textStyle = const TextStyle(fontSize: 10, color: Colors.white70);
+    const textStyle = TextStyle(fontSize: 10, color: Colors.white70);
     return await showDialog(
       context: context,
       barrierDismissible: false,
