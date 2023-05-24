@@ -10,11 +10,11 @@ class MuteAnotherHostButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
       valueListenable:
-          ZegoUIKitPrebuiltLiveStreamingService().isAnotherHostMuted,
+          ZegoUIKitPrebuiltLiveStreamingPKService().isAnotherHostMuted,
       builder: (context, isMuted, _) {
         return IconButton(
           onPressed: () {
-            ZegoUIKitPrebuiltLiveStreamingService()
+            ZegoUIKitPrebuiltLiveStreamingPKService()
                 .muteAnotherHostAudio(mute: !isMuted);
           },
           icon: Icon(

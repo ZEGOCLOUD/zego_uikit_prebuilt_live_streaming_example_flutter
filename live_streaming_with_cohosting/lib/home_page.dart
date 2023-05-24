@@ -7,6 +7,7 @@ import 'package:live_streaming_cohost/constants.dart';
 
 // Project imports:
 import 'package:live_streaming_cohost/live_page.dart';
+import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 class HomePage extends StatelessWidget {
   /// Users who use the same liveID can join the same live streaming.
@@ -37,22 +38,40 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
               style: buttonStyle,
               child: const Text('Start a live'),
-              onPressed: () => jumpToLivePage(
-                context,
-                liveID: liveTextCtrl.text,
-                isHost: true,
-              ),
+              onPressed: () {
+                if (ZegoUIKitPrebuiltLiveStreamingMiniOverlayMachine()
+                    .isMinimizing) {
+                  /// when the application is minimized (in a minimized state),
+                  /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
+                  return;
+                }
+
+                jumpToLivePage(
+                  context,
+                  liveID: liveTextCtrl.text,
+                  isHost: true,
+                );
+              },
             ),
             const SizedBox(height: 20),
             // click me to navigate to LivePage
             ElevatedButton(
               style: buttonStyle,
               child: const Text('Watch a live'),
-              onPressed: () => jumpToLivePage(
-                context,
-                liveID: liveTextCtrl.text,
-                isHost: false,
-              ),
+              onPressed: () {
+                if (ZegoUIKitPrebuiltLiveStreamingMiniOverlayMachine()
+                    .isMinimizing) {
+                  /// when the application is minimized (in a minimized state),
+                  /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
+                  return;
+                }
+
+                jumpToLivePage(
+                  context,
+                  liveID: liveTextCtrl.text,
+                  isHost: false,
+                );
+              },
             ),
           ],
         ),

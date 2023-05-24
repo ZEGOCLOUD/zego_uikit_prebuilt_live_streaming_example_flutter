@@ -44,9 +44,17 @@ class _LivePageState extends State<LivePage> {
       );
     }
 
-    config.onLiveStreamingStateUpdate = (state) {
-      liveStreamingState.value = state;
-    };
+    config
+      ..onLiveStreamingStateUpdate = (state) {
+        liveStreamingState.value = state;
+      }
+
+      /// support minimizing
+      ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton];
+
+    if (widget.isHost) {
+      config.foreground = pkBattleButton();
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -60,7 +68,6 @@ class _LivePageState extends State<LivePage> {
               liveID: widget.liveID,
               config: config,
             ),
-            if (widget.isHost) pkBattleButton(),
           ],
         ),
       ),
@@ -75,12 +82,13 @@ class _LivePageState extends State<LivePage> {
             (value == ZegoLiveStreamingState.ended)) {
           return const SizedBox.shrink();
         }
+
         return Positioned(
           bottom: 80,
           right: 10,
           child: ValueListenableBuilder(
             valueListenable:
-                ZegoUIKitPrebuiltLiveStreamingService().pkBattleState,
+                ZegoUIKitPrebuiltLiveStreamingPKService().pkBattleState,
             builder:
                 (context, ZegoLiveStreamingPKBattleState pkBattleState, _) {
               switch (pkBattleState) {

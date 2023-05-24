@@ -31,6 +31,28 @@ class LivePageState extends State<LivePage> {
 
   @override
   Widget build(BuildContext context) {
+    final hostConfig = ZegoUIKitPrebuiltLiveStreamingConfig.host(
+      plugins: [ZegoUIKitSignalingPlugin()],
+    )..audioVideoViewConfig.foregroundBuilder =
+        hostAudioVideoViewForegroundBuilder;
+
+    final audienceConfig = ZegoUIKitPrebuiltLiveStreamingConfig.audience(
+      plugins: [ZegoUIKitSignalingPlugin()],
+    )
+      ..audioVideoViewConfig.useVideoViewAspectFill = false
+      ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
+        return onTurnOnAudienceDeviceConfirmation(
+          context,
+          isCameraOrMicrophone: true,
+        );
+      }
+      ..onMicrophoneTurnOnByOthersConfirmation = (BuildContext context) {
+        return onTurnOnAudienceDeviceConfirmation(
+          context,
+          isCameraOrMicrophone: false,
+        );
+      };
+
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
         appID: yourAppID /*input your AppID*/,
@@ -39,28 +61,10 @@ class LivePageState extends State<LivePage> {
         userName: 'user_$localUserID',
         liveID: widget.liveID,
         controller: liveController,
-        config: widget.isHost
-            ? (ZegoUIKitPrebuiltLiveStreamingConfig.host(
-                plugins: [ZegoUIKitSignalingPlugin()],
-              )..audioVideoViewConfig.foregroundBuilder =
-                hostAudioVideoViewForegroundBuilder)
-            : (ZegoUIKitPrebuiltLiveStreamingConfig.audience(
-                plugins: [ZegoUIKitSignalingPlugin()],
-              )
-              ..audioVideoViewConfig.useVideoViewAspectFill = false
-              ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
-                return onTurnOnAudienceDeviceConfirmation(
-                  context,
-                  isCameraOrMicrophone: true,
-                );
-              }
-              ..onMicrophoneTurnOnByOthersConfirmation =
-                  (BuildContext context) {
-                return onTurnOnAudienceDeviceConfirmation(
-                  context,
-                  isCameraOrMicrophone: false,
-                );
-              }),
+        config: (widget.isHost ? hostConfig : audienceConfig)
+
+          /// support minimizing
+          ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton],
       ),
     );
   }

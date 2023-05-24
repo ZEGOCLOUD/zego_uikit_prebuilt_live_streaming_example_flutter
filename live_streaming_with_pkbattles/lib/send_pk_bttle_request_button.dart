@@ -8,7 +8,7 @@ class SendPKBattleRequestButton extends StatelessWidget {
   }) : super(key: key);
 
   void sendPKBattleRequest(context, anotherHostUserID) {
-    ZegoUIKitPrebuiltLiveStreamingService()
+    ZegoUIKitPrebuiltLiveStreamingPKService()
         .sendPKBattleRequest(anotherHostUserID)
         .then((ret) {
       if (ret.error != null) {

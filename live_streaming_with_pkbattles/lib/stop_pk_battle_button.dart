@@ -8,7 +8,7 @@ class StopPKBattleButton extends StatelessWidget {
   }) : super(key: key);
 
   void stopPKBattle(context) {
-    ZegoUIKitPrebuiltLiveStreamingService().stopPKBattle().then((ret) {
+    ZegoUIKitPrebuiltLiveStreamingPKService().stopPKBattle().then((ret) {
       if (ret.error != null && ret.error!.code != '-1') {
         showDialog(
           context: context,

@@ -8,7 +8,9 @@ class CancelPKBattleRequestButton extends StatelessWidget {
   }) : super(key: key);
 
   void cancelPKBattleRequest(context) {
-    ZegoUIKitPrebuiltLiveStreamingService().cancelPKBattleRequest().then((ret) {
+    ZegoUIKitPrebuiltLiveStreamingPKService()
+        .cancelPKBattleRequest()
+        .then((ret) {
       if (ret.error != null) {
         showDialog(
           context: context,
