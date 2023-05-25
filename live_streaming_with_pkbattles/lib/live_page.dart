@@ -27,8 +27,23 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
+  ZegoUIKitPrebuiltLiveStreamingController? liveController;
   ValueNotifier<ZegoLiveStreamingState> liveStreamingState =
       ValueNotifier(ZegoLiveStreamingState.idle);
+
+  @override
+  void initState() {
+    super.initState();
+
+    liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    liveController = null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +82,7 @@ class _LivePageState extends State<LivePage> {
               userName: 'user_${widget.localUserID}',
               liveID: widget.liveID,
               config: config,
+              controller: liveController,
             ),
           ],
         ),
