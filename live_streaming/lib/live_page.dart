@@ -5,6 +5,9 @@ import 'package:live_streaming/constants.dart';
 // Package imports:
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
+// Project imports:
+import 'common.dart';
+
 class LivePage extends StatefulWidget {
   final String liveID;
   final bool isHost;
@@ -38,9 +41,10 @@ class LivePageState extends State<LivePage> {
         userName: 'user_$localUserID',
         liveID: widget.liveID,
         controller: liveController,
-        config: widget.isHost
+        config: (widget.isHost
             ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
-            : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
+            : ZegoUIKitPrebuiltLiveStreamingConfig.audience())
+          ..avatarBuilder = customAvatarBuilder,
       ),
     );
   }

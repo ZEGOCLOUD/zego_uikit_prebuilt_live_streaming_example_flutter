@@ -1,5 +1,3 @@
-// Dart imports:
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -9,6 +7,9 @@ import 'package:live_streaming_cohost/constants.dart';
 // Package imports:
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
+// Project imports:
+import 'common.dart';
 
 class LivePage extends StatefulWidget {
   final String liveID;
@@ -62,6 +63,7 @@ class LivePageState extends State<LivePage> {
         liveID: widget.liveID,
         controller: liveController,
         config: (widget.isHost ? hostConfig : audienceConfig)
+          ..avatarBuilder = customAvatarBuilder
 
           /// support minimizing
           ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton],

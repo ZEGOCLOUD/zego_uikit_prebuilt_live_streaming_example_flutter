@@ -10,6 +10,9 @@ import 'package:live_streaming_with_pkbattles/send_pk_bttle_request_button.dart'
 import 'package:live_streaming_with_pkbattles/stop_pk_battle_button.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
+// Project imports:
+import 'common.dart';
+
 class LivePage extends StatefulWidget {
   final String liveID;
   final String localUserID;
@@ -63,6 +66,7 @@ class _LivePageState extends State<LivePage> {
       ..onLiveStreamingStateUpdate = (state) {
         liveStreamingState.value = state;
       }
+      ..avatarBuilder = customAvatarBuilder
 
       /// support minimizing
       ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton];
