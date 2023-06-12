@@ -32,6 +32,12 @@ class LivePageState extends State<LivePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    liveController = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
