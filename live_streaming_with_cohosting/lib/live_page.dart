@@ -78,7 +78,9 @@ class LivePageState extends State<LivePage> {
           ..avatarBuilder = customAvatarBuilder
 
           /// support minimizing
-          ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton],
+          ..topMenuBarConfig.buttons = [
+            ZegoMenuBarButtonName.minimizingButton,
+          ],
       ),
     );
   }
