@@ -131,8 +131,17 @@ class LivePageState extends State<LivePage> {
             builder: (context, isMicrophoneEnabled, _) {
               return GestureDetector(
                 onTap: () {
-                  ZegoUIKit()
-                      .turnMicrophoneOn(!isMicrophoneEnabled, userID: user.id);
+                  ZegoUIKit().turnMicrophoneOn(
+                    !isMicrophoneEnabled,
+                    userID: user.id,
+
+                    ///  if you don't want to stop co-hosting automatically when both camera and microphone are off,
+                    ///  set the [muteMode] parameter to true.
+                    ///
+                    ///  However, in this case, your [ZegoUIKitPrebuiltLiveStreamingConfig.stopCoHostingWhenMicCameraOff]
+                    ///  should also be set to false.
+                    muteMode: true,
+                  );
                 },
                 child: SizedBox(
                   width: size.width * 0.4,
