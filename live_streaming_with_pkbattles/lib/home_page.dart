@@ -45,8 +45,8 @@ class HomePage extends StatelessWidget {
               child: const Text('Start a live'),
               onPressed: () => jumpToLivePage(
                 context,
-                localUserID: userIDTextCtrl.text,
-                liveID: liveTextCtrl.text,
+                localUserID: userIDTextCtrl.text.trim(),
+                liveID: liveTextCtrl.text.trim(),
                 isHost: true,
               ),
             ),
@@ -57,8 +57,8 @@ class HomePage extends StatelessWidget {
               child: const Text('Watch a live'),
               onPressed: () => jumpToLivePage(
                 context,
-                localUserID: userIDTextCtrl.text,
-                liveID: liveTextCtrl.text,
+                localUserID: userIDTextCtrl.text.trim(),
+                liveID: liveTextCtrl.text.trim(),
                 isHost: false,
               ),
             ),

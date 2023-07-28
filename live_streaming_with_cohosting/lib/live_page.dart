@@ -28,18 +28,16 @@ class LivePage extends StatefulWidget {
 }
 
 class LivePageState extends State<LivePage> {
-  ZegoUIKitPrebuiltLiveStreamingController? liveController;
+  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
 
   @override
   void initState() {
     super.initState();
-    liveController = ZegoUIKitPrebuiltLiveStreamingController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    liveController = null;
   }
 
   @override
@@ -52,7 +50,6 @@ class LivePageState extends State<LivePage> {
     final audienceConfig = ZegoUIKitPrebuiltLiveStreamingConfig.audience(
       plugins: [ZegoUIKitSignalingPlugin()],
     )
-      ..audioVideoViewConfig.useVideoViewAspectFill = false
       ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
         return onTurnOnAudienceDeviceConfirmation(
           context,
@@ -76,6 +73,7 @@ class LivePageState extends State<LivePage> {
         controller: liveController,
         config: (widget.isHost ? hostConfig : audienceConfig)
           ..avatarBuilder = customAvatarBuilder
+          ..audioVideoViewConfig.useVideoViewAspectFill = false
 
           /// support minimizing
           ..topMenuBarConfig.buttons = [
@@ -95,7 +93,7 @@ class LivePageState extends State<LivePage> {
     ZegoUIKitUser? user,
     Map<String, dynamic> extraInfo,
   ) {
-    if (user == null || user?.id == localUserID) {
+    if (user == null || user.id == localUserID) {
       return Container();
     }
 
