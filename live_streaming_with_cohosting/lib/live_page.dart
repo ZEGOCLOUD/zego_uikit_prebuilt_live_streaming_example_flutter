@@ -31,16 +31,6 @@ class LivePageState extends State<LivePage> {
   final liveController = ZegoUIKitPrebuiltLiveStreamingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final hostConfig = ZegoUIKitPrebuiltLiveStreamingConfig.host(
       plugins: [ZegoUIKitSignalingPlugin()],
