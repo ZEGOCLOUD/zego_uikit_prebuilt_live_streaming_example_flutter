@@ -23,7 +23,19 @@ class LivePage extends StatefulWidget {
 }
 
 class LivePageState extends State<LivePage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  ZegoUIKitPrebuiltLiveStreamingController? liveController;
+
+  @override
+  void initState() {
+    super.initState();
+    liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    liveController = null;
+  }
 
   @override
   Widget build(BuildContext context) {

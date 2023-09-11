@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+
+import 'package:zego_uikit/zego_uikit.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
 import 'package:live_streaming_with_pkbattles/cancel_pk_battle_request_button.dart';
-import 'package:live_streaming_with_pkbattles/common.dart';
 import 'package:live_streaming_with_pkbattles/constants.dart';
 import 'package:live_streaming_with_pkbattles/mute_another_host_button.dart';
 import 'package:live_streaming_with_pkbattles/send_pk_bttle_request_button.dart';
 import 'package:live_streaming_with_pkbattles/stop_pk_battle_button.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
-import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
+// Project imports:
+import 'common.dart';
 
 class LivePage extends StatefulWidget {
   final String liveID;
@@ -25,11 +30,23 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  ZegoUIKitPrebuiltLiveStreamingController? liveController;
   ValueNotifier<ZegoLiveStreamingState> liveStreamingState =
       ValueNotifier(ZegoLiveStreamingState.idle);
 
-  bool showingDialog = false;
+  @override
+  void initState() {
+    super.initState();
+
+    liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    liveController = null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +65,6 @@ class _LivePageState extends State<LivePage> {
     config
       ..onLiveStreamingStateUpdate = (state) {
         liveStreamingState.value = state;
-        if (state == ZegoLiveStreamingState.inPKBattle && showingDialog) {
-          // Dismiss the dialog.
-          showingDialog = false;
-          Navigator.of(context).pop();
-        }
       }
       ..avatarBuilder = customAvatarBuilder
 
@@ -60,7 +72,7 @@ class _LivePageState extends State<LivePage> {
       ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton];
 
     if (widget.isHost) {
-      config.foreground = Stack(children: [pkBattleButton()]);
+      config.foreground = pkBattleButton();
     }
 
     return SafeArea(

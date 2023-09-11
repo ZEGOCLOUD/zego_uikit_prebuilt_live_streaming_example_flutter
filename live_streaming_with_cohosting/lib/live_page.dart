@@ -28,7 +28,19 @@ class LivePage extends StatefulWidget {
 }
 
 class LivePageState extends State<LivePage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  ZegoUIKitPrebuiltLiveStreamingController? liveController;
+
+  @override
+  void initState() {
+    super.initState();
+    liveController = ZegoUIKitPrebuiltLiveStreamingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    liveController = null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +52,7 @@ class LivePageState extends State<LivePage> {
     final audienceConfig = ZegoUIKitPrebuiltLiveStreamingConfig.audience(
       plugins: [ZegoUIKitSignalingPlugin()],
     )
+      ..audioVideoViewConfig.useVideoViewAspectFill = false
       ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
         return onTurnOnAudienceDeviceConfirmation(
           context,
@@ -63,12 +76,9 @@ class LivePageState extends State<LivePage> {
         controller: liveController,
         config: (widget.isHost ? hostConfig : audienceConfig)
           ..avatarBuilder = customAvatarBuilder
-          ..audioVideoViewConfig.useVideoViewAspectFill = false
 
-          /// support minimizing
-          ..topMenuBarConfig.buttons = [
-            ZegoMenuBarButtonName.minimizingButton,
-          ],
+          /// support minimizingÅ
+          ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton],
       ),
     );
   }
@@ -83,7 +93,7 @@ class LivePageState extends State<LivePage> {
     ZegoUIKitUser? user,
     Map<String, dynamic> extraInfo,
   ) {
-    if (user == null || user.id == localUserID) {
+    if (user == null || user?.id == localUserID) {
       return Container();
     }
 
@@ -119,17 +129,8 @@ class LivePageState extends State<LivePage> {
             builder: (context, isMicrophoneEnabled, _) {
               return GestureDetector(
                 onTap: () {
-                  ZegoUIKit().turnMicrophoneOn(
-                    !isMicrophoneEnabled,
-                    userID: user.id,
-
-                    ///  if you don't want to stop co-hosting automatically when both camera and microphone are off,
-                    ///  set the [muteMode] parameter to true.
-                    ///
-                    ///  However, in this case, your [ZegoUIKitPrebuiltLiveStreamingConfig.stopCoHostingWhenMicCameraOff]
-                    ///  should also be set to false.
-                    muteMode: true,
-                  );
+                  ZegoUIKit()
+                      .turnMicrophoneOn(!isMicrophoneEnabled, userID: user.id);
                 },
                 child: SizedBox(
                   width: size.width * 0.4,

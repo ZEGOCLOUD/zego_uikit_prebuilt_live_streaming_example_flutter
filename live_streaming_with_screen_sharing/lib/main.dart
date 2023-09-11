@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
               child: const Text('Start a live'),
               onPressed: () => jumpToLivePage(
                 context,
-                liveID: liveTextCtrl.text.trim(),
+                liveID: liveTextCtrl.text,
                 isHost: true,
               ),
             ),
@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
               child: const Text('Watch a live'),
               onPressed: () => jumpToLivePage(
                 context,
-                liveID: liveTextCtrl.text.trim(),
+                liveID: liveTextCtrl.text,
                 isHost: false,
               ),
             ),
@@ -172,7 +172,7 @@ class LivePage extends StatelessWidget {
 
   Widget hostAudioVideoViewForegroundBuilder(
       BuildContext context, Size size, ZegoUIKitUser? user, Map extraInfo) {
-    if (user == null || user.id == localUserID) {
+    if (user == null || user?.id == localUserID) {
       return Container();
     }
 
@@ -245,11 +245,11 @@ class LivePage extends StatelessWidget {
               style: textStyle),
           actions: [
             ElevatedButton(
-              child: const Text('Cancel', style: textStyle),
+              child: Text('Cancel', style: textStyle),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             ElevatedButton(
-              child: const Text('OK', style: textStyle),
+              child: Text('OK', style: textStyle),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

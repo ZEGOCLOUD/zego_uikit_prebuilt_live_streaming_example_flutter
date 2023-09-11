@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
               child: const Text('Start a live'),
               onPressed: () => jumpToLivePage(
                 context,
-                liveID: liveTextCtrl.text.trim(),
+                liveID: liveTextCtrl.text,
                 isHost: true,
               ),
             ),
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
               child: const Text('Watch a live'),
               onPressed: () => jumpToLivePage(
                 context,
-                liveID: liveTextCtrl.text.trim(),
+                liveID: liveTextCtrl.text,
                 isHost: false,
               ),
             ),

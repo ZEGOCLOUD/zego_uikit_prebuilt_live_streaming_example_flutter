@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
 
                 jumpToLivePage(
                   context,
-                  liveID: liveTextCtrl.text.trim(),
+                  liveID: liveTextCtrl.text,
                   isHost: true,
                 );
               },
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
 
                 jumpToLivePage(
                   context,
-                  liveID: liveTextCtrl.text.trim(),
+                  liveID: liveTextCtrl.text,
                   isHost: false,
                 );
               },
