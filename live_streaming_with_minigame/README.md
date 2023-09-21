@@ -10,7 +10,7 @@ Our demo has currently completed the basic integration process examples, includi
 
 Dear user,
 
-Before you proceed with this code, we urge you to read the following disclaimer thoroughly. This code is purely for reference and learning. Please be aware that any risks arising from the use of this code lie solely with the user. The author will not be held accountable for any loss or risk incurred.
+Before you proceed with the Demo code, we urge you to read the following disclaimer thoroughly. This code is purely for reference and learning. Please be aware that any risks arising from the use of this code lie solely with the user. The author will not be held accountable for any loss or risk incurred.
 
 The potential security risks include:
 - The code may contain vulnerabilities or errors.
@@ -26,14 +26,19 @@ Users should:
 
 Please ensure you fully comprehend and accept all risks and disclaimers before using this code. The author will not be accountable for any issues that arise from the use of this code. If you disagree with any part of this disclaimer, please refrain from using the code.
 
-# Quick Start
+# Overview
+
+|in-room minigame|standalone minigame page|
+|---|---|
+|<img src="./doc/minigame_1.gif" width=40%>|<img src="./doc/minigame_2.gif" width=40%>|
+
 
 ## Download demo and test it.
 
 1. Download Demo: [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame), [Server Demo\|_blank](https://storage.zego.im/ZegoMiniGameSDK/server/ZegoMiniGameServerDemo.zip). 
-2. Modify The Authentication Information: Please replace the appid, appsign, and server secret in [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame) and Server Demo with those of your project.
-3. Running the Server Demo,  then replace the [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame)'s miniGameHostUrl with your own server url.
-4. Then you can test ClientDemo (there are multiple demos in the [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame) repository, please use live_streaming_with_minigame project).
+2. Modify The Authentication Information: Please replace the appid, appsign, and server secret in Client Demo and Server Demo with those of your project.
+3. Running the Server Demo,  then replace the Client Demo's miniGameHostUrl with your own server url.
+4. Then you can test ClientDemo (there are multiple demos in the Client Demo repository, please use live_streaming_with_minigame project).
 
 ## Integrated into your project
 
@@ -58,9 +63,9 @@ flutter pub add flutter_inappwebview dio encrypt
 ## Usage Instructions
 ### initialize the `ZegoMiniGame` SDK and render the mini-game UI.
 
-#### init
-
 After integrating `flutter_inappwebview`, you can use `InAppWebView` to render the mini-game UI and initialize the `ZegoMiniGame`. You can use `InAppWebView` anywhere you need it.
+
+> In the demo, we render the game as a full-screen game. You can adjust the size of the `InAppWebView` as you like to achieve different display effects, such as a half-screen game.
 
 You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/live_page.dart#L67)
 
@@ -71,7 +76,7 @@ Please note that:
 
 With these two steps, you can complete the initialization of `ZegoMiniGame` SDK.
 
-#### Uninit the ZegoMiniGame SDK
+### Uninit the ZegoMiniGame SDK
 
 When you no longer need the ZegoMiniGame SDK, you need to use `WillPopScope` to destroy the ZegoMiniGame SDK before exiting the page.
 
@@ -114,4 +119,11 @@ After obtaining the game list, you can load the game by using `ZegoMiniGame().lo
 
 You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45)
 
+
+
+# Conclusion
+
+Congratulations! Hereby you have completed the development of minigame feature. 
+
+If you have any suggestions or comments, feel free to share them with us via [Discord\|_blank](https://discord.gg/EtNRATttyp). We value your feedback.
 
