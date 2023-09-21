@@ -1,257 +1,117 @@
-- - -
-# Overview
-- - -
+# Preface
 
-**Live Streaming Kit** is a feature-rich livestream component, which enables you to build custom live streaming into your apps with only a few lines of code. And you can also customize various live streaming features by configuring parameters.
+## Principle of integrating MiniGame with Flutter
 
+Our MiniGameEngine is based on web JS SDK. The Flutter solution relies on the flutter_inappwebview plugin to achieve interaction with JS and HTML. 
 
-| Host | Audience |
-| --- | --- |
-|![host_3.gif](./../images/host_3.gif)|![audience_3](./../images/audience_3.gif)|
+Our demo has currently completed the basic integration process examples, including HTML coding, Dart and HTML interaction encapsulation, etc. If you need to implement more game features, you will need to refer to the implementation method in the demo and expand it yourself. This may require you to read the demo code to understand the interaction between JS, HTML, and Dart.
 
+## Disclaimer and Risks of Demo Code Usage
 
+Dear user,
 
-## When do you need the Live Streaming Kit
+Before you proceed with this code, we urge you to read the following disclaimer thoroughly. This code is purely for reference and learning. Please be aware that any risks arising from the use of this code lie solely with the user. The author will not be held accountable for any loss or risk incurred.
 
-- Build apps faster and easier
-  > When you want to prototype live streaming ASAP 
-  
-  > Consider speed or efficiency as the first priority. 
+The potential security risks include:
+- The code may contain vulnerabilities or errors.
+- System malfunctions or data loss might occur.
+- The code may depend on third-party libraries or services.
+- Some portions of the code should be used for teaching and demonstration only.
 
-- Customize UI as needed
-  > When you want to customize the UI based on your actual business needs
-  
-  > Don't want to waste time developing basic features
+Users should:
+- Be prepared for the security risks and take necessary measures to safeguard their systems and data.
+- Backup data to avoid potential data loss.
+- Evaluate the security and reliability of any third-party dependencies.
+- Handle sample or demonstration code with caution, not using them in production environments.
 
-Live Streaming Kit helps you to **integrate within the shortest possible time**, and it includes the business logic with the UI, allowing you to **customize features accordingly**.
+Please ensure you fully comprehend and accept all risks and disclaimers before using this code. The author will not be accountable for any issues that arise from the use of this code. If you disagree with any part of this disclaimer, please refrain from using the code.
 
-To finest-grained build a live stream app, you may try our [Live Streaming SDK](https://docs.zegocloud.com/article/14313) to make full customization.
+# Quick Start
 
+## Download demo and test it.
 
+1. Download Demo: [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame), [Server Demo\|_blank](https://storage.zego.im/ZegoMiniGameSDK/server/ZegoMiniGameServerDemo.zip). 
+2. Modify The Authentication Information: Please replace the appid, appsign, and server secret in [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame) and Server Demo with those of your project.
+3. Running the Server Demo,  then replace the [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame)'s miniGameHostUrl with your own server url.
+4. Then you can test ClientDemo (there are multiple demos in the [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame) repository, please use live_streaming_with_minigame project).
 
-## Embedded features
+## Integrated into your project
 
-- Ready-to-use live streaming
-- Customizable UI style
-- Real-time interactive text chat
-- Real-time audience capacity display
-- Device management
-- Extendable menu bar
-- Co-hosting (make co-host & apply co-host)
+1. Copy the `./assets/minigame` and `./lib/minigame` folders from the Demo to your project.
 
+![\|_blank](./doc/copy_minigame.png)
 
-## Recommended resources
+2. Declare the newly added assets in your project's `pubspec.yaml` file.
 
-
-* I want to get started to implement [a basic live stream](https://docs.zegocloud.com/article/14846) swiftly
-* I want to get the [Sample Code](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter)
-* I want to get started to implement [a live stream with co-hosting](https://docs.zegocloud.com/article/14882)
-* To [configure prebuilt UI](https://docs.zegocloud.com/article/14878) for a custom experience
-
-
-
-- - -
-# Quick start (with cohosting)
-- - -
-
-
-
-![live_with_cohosting2.gif](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live_with_cohosting2.gif)
-
-## Prerequisites
-
-- Go to [ZEGOCLOUD Admin Console](https://console.zegocloud.com), and do the following:
-  - Create a project, get the **AppID** and **AppSign**.
-  - Activate the **In-app Chat** service (as shown in the following figure).
-![ActivateZIMinConsole2.png](https://storage.zego.im/sdk-doc/Pics/InappChat/ActivateZIMinConsole2.png)
-
-
-
-## Integrate the SDK
-
-### Add ZegoUIKitPrebuiltLiveStreaming as dependencies
-
-Run the following code in your project's root directory: 
-
-```dart
-flutter pub add zego_uikit_signaling_plugin
-flutter pub add zego_uikit_prebuilt_live_streaming
+```yaml
+assets:
+  - assets/minigame/index.js
+  - assets/minigame/index.html
 ```
 
-### Import the SDK
+3. Execute the following command to add the following dependency libraries.
 
-Now in your Dart code, import the Live Streaming Kit SDK.
-
-```dart
-import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming';
+```bash
+flutter pub add flutter_inappwebview dio encrypt
 ```
 
+## Usage Instructions
+### initialize the `ZegoMiniGame` SDK and render the mini-game UI.
 
-## Using the Live Streaming Kit
+#### init
 
-- Specify the `userID` and `userName` for connecting the Live Streaming Kit service. 
-- `liveID` represents the live stream you want to start or watch.
-- Set the `config` to the `ZegoUIKitSignalingPlugin` plug-in.
+After integrating `flutter_inappwebview`, you can use `InAppWebView` to render the mini-game UI and initialize the `ZegoMiniGame`. You can use `InAppWebView` anywhere you need it.
 
-<div class="mk-hint">
+You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/live_page.dart#L67)
 
-- `userID`, `userName`, and `liveID` can only contain numbers, letters, and underlines (_). 
-- Using the same `liveID` will enter the same live streaming.
-</div>
+Please note that:
 
+1. You need to call `ZegoMiniGame().initWebViewController(controller)` in the `onWebViewCreated` of `InAppWebView`.
+2. You need to call `YourGameServer().getToken` and `ZegoMiniGame().initGameSDK()` in the `onWebViewCreated` of `InAppWebView`.
 
-<div class="mk-warning">
+With these two steps, you can complete the initialization of `ZegoMiniGame` SDK.
 
-With the same `liveID`, only one user can enter the live stream as host. Other users need to enter the live stream as the audience.
-</div>
+#### Uninit the ZegoMiniGame SDK
 
+When you no longer need the ZegoMiniGame SDK, you need to use `WillPopScope` to destroy the ZegoMiniGame SDK before exiting the page.
+
+> Notice: This portion of code should not be placed in the `dispose` of widget. Because destroying the `ZegoMiniGame` SDK depends on `InAppWebView`, and when the widget is disposed, `InAppWebView` has already been destroyed.
 
 ```dart
-class LivePage extends StatelessWidget {
-  final String liveID;
-  final bool isHost;
-
-  const LivePage({Key? key, required this.liveID, this.isHost = false}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: ZegoUIKitPrebuiltLiveStreaming(
-        appID: yourAppID, // Fill in the appID that you get from ZEGOCLOUD Admin Console.
-        appSign: yourAppSign, // Fill in the appSign that you get from ZEGOCLOUD Admin Console.
-        userID: 'user_id',
-        userName: 'user_name',
-        liveID: liveID,
-        config: isHost
-            ? ZegoUIKitPrebuiltLiveStreamingConfig.host(
-                plugins: [ZegoUIKitSignalingPlugin()],
-              )
-            : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
-                plugins: [ZegoUIKitSignalingPlugin()],
-              ),
-      ),
-    );
-  }
+Widget build(BuildContext context) {
+  return WillPopScope(
+    onWillPop: () async {
+      await ZegoMiniGame().unloadGame();
+      await ZegoMiniGame().uninitGameSDK();
+      await ZegoMiniGame().uninitWebViewController();
+      return true;
+    },
+    child: YourPage(),
+  );
 }
 ```
 
-Then, you can start a live stream. And the audience can watch the live stream by entering the `liveID`.
+### Get game list
+
+After ensuring the initialization of `ZegoMiniGame`, you can use `ZegoMiniGame().getAllGameList()` to get the game list and render it in the UI.
+
+You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L31)
 
 
+### User Currency
+
+Please note that before starting the game:
+
+1. You need to use `YourGameServer().exchangeUserCurrency` to exchange game coins for the user.
+2. And use `YourGameServer().getUserCurrency` to query the current amount of game coins for the user.
+
+You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45)
 
 
-## Config your project
+### start the game
 
-- Android:
+After obtaining the game list, you can load the game by using `ZegoMiniGame().loadGame()`.
 
-1. If your project is created with Flutter 2.x.x, you will need to open the `your_project/android/app/build.gradle` file, and modify the `compileSdkVersion` to **33**.
-
-
-   ![compileSdkVersion](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/compile_sdk_version.png)
-
-2. Add app permission.
-Open the file `your_project/app/src/main/AndroidManifest.xml`, and add the following:
-
-   ```xml
-   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-   <uses-permission android:name="android.permission.RECORD_AUDIO" />
-   <uses-permission android:name="android.permission.INTERNET" />
-   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-   <uses-permission android:name="android.permission.CAMERA" />
-   <uses-permission android:name="android.permission.BLUETOOTH" />
-   <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-   <uses-permission android:name="android.permission.WAKE_LOCK" />
-   ```
-    <img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_android.png" width=800>
-
-3. Add app permission.
-Open the file `your_project/app/src/main/AndroidManifest.xml`, and add the following:
-
-   ```xml
-   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-   <uses-permission android:name="android.permission.RECORD_AUDIO" />
-   <uses-permission android:name="android.permission.INTERNET" />
-   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-   <uses-permission android:name="android.permission.CAMERA" />
-   <uses-permission android:name="android.permission.BLUETOOTH" />
-   <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-   <uses-permission android:name="android.permission.WAKE_LOCK" />
-   ```
-    <img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_android.png" width=800>
-
-4. Prevent code obfuscation.
-
-To prevent obfuscation of the SDK public class names, do the following:
-
-a. In your project's `your_project > android > app` folder, create a `proguard-rules.pro` file with the following content as shown below:
-
-<pre style="background-color: #011627; border-radius: 8px; padding: 25px; color: white"><div>
--keep class **.zego.** { *; }
--keep class **.**.zego_zpns.** { *; }
-</div></pre>
-
-b. Add the following config code to the `release` part of the `your_project/android/app/build.gradle` file.
+You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45)
 
 
-<pre style="background-color: #011627; border-radius: 8px; padding: 25px; color: white"><div>
-proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-</div></pre>
-
-![android_class_confusion.png](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/android_class_confusion_zpns.png)
-
-
-- iOS:
-
-1. Add app permissions.
-
-a. open the `your_project/ios/Podfile` file, and add the following to the `post_install do |installer|` part:
-
-```plist
-# Start of the permission_handler configuration
-target.build_configurations.each do |config|
-  config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
-    '$(inherited)',
-    'PERMISSION_CAMERA=1',
-    'PERMISSION_MICROPHONE=1',
-  ]
-end
-# End of the permission_handler configuration
-```
-
-<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_podfile.png" width=800>
-
-b. open the `your_project/ios/Runner/Info.plist` file, and add the following to the `dict` part:
-
-```plist
-    <key>NSCameraUsageDescription</key>
-    <string>We require camera access to connect to a live</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>We require microphone access to connect to a live</string>
-```
-
-<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/live/permission_ios.png" width=800>
-
-
-2. Disable the Bitcode.
-
-a. Open the `your_project > iOS > Runner.xcworkspace` file.
-
-b. Select your target project, and follow the notes on the following two images to disable the Bitcode respectively.
-
-<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/bitcode_1.png" width=800>
-<img src="https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/bitcode_2.png" width=800>
-
-
-##  Run & Test
-
-Now you can simply click the **Run** or **Debug** button to run and test your App on the device.
-![/Pics/ZegoUIKit/Flutter/run_flutter_project.jpg](https://storage.zego.im/sdk-doc/Pics/ZegoUIKit/Flutter/run_flutter_project.jpg)
-
-## Related guide
-
-[Custom prebuilt UI](https://docs.zegocloud.com/article/14878)
