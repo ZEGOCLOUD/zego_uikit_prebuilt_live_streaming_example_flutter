@@ -33,6 +33,7 @@ Please ensure you fully comprehend and accept all risks and disclaimers before u
 |<img src="./doc/minigame_1.gif" width=40%>|<img src="./doc/minigame_2.gif" width=40%>|
 
 
+
 ## Download demo and test it.
 
 1. Download Demo: [Client Demo\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/tree/master/live_streaming_with_minigame), [Server Demo\|_blank](https://storage.zego.im/ZegoMiniGameSDK/server/ZegoMiniGameServerDemo.zip). 
@@ -40,11 +41,38 @@ Please ensure you fully comprehend and accept all risks and disclaimers before u
 3. Running the Server Demo,  then replace the Client Demo's miniGameHostUrl with your own server url.
 4. Then you can test ClientDemo (there are multiple demos in the Client Demo repository, please use live_streaming_with_minigame project).
 
+<div class="mk-warning">
+
+<details class="zg-primary"><summary> Disclaimer and Risks of Demo Code Usage </summary>
+
+Dear user,
+
+Before you proceed with the Demo code, we urge you to read the following disclaimer thoroughly. This code is purely for reference and learning. Please be aware that any risks arising from the use of this code lie solely with the user. The author will not be held accountable for any loss or risk incurred.
+
+The potential security risks include:
+- The code may contain vulnerabilities or errors.
+- System malfunctions or data loss might occur.
+- The code may depend on third-party libraries or services.
+- Some portions of the code should be used for teaching and demonstration only.
+
+Users should:
+- Be prepared for the security risks and take necessary measures to safeguard their systems and data.
+- Backup data to avoid potential data loss.
+- Evaluate the security and reliability of any third-party dependencies.
+- Handle sample or demonstration code with caution, not using them in production environments.
+
+Please ensure you fully comprehend and accept all risks and disclaimers before using this code. The author will not be accountable for any issues that arise from the use of this code. If you disagree with any part of this disclaimer, please refrain from using the code.
+
+</details>
+
+</div>
+
 ## Integrated into your project
 
 1. Copy the `./assets/minigame` and `./lib/minigame` folders from the Demo to your project.
 
 ![\|_blank](./doc/copy_minigame.png)
+
 
 2. Declare the newly added assets in your project's `pubspec.yaml` file.
 
@@ -56,18 +84,26 @@ assets:
 
 3. Execute the following command to add the following dependency libraries.
 
+
 ```bash
 flutter pub add flutter_inappwebview dio encrypt
 ```
 
 ## Usage Instructions
+
 ### initialize the `ZegoMiniGame` SDK and render the mini-game UI.
 
 After integrating `flutter_inappwebview`, you can use `InAppWebView` to render the mini-game UI and initialize the `ZegoMiniGame`. You can use `InAppWebView` anywhere you need it.
 
-> In the demo, we render the game as a full-screen game. You can adjust the size of the `InAppWebView` as you like to achieve different display effects, such as a half-screen game.
+<div class="mk-hint">
+
+In the demo, we render the game as a full-screen game. You can adjust the size of the `InAppWebView` as you like to achieve different display effects, such as a half-screen game.
+
+</div>
+
 
 You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/live_page.dart#L67)
+
 
 Please note that:
 
@@ -96,34 +132,88 @@ Widget build(BuildContext context) {
 }
 ```
 
+
+
 ### Get game list
 
 After ensuring the initialization of `ZegoMiniGame`, you can use `ZegoMiniGame().getAllGameList()` to get the game list and render it in the UI.
 
-You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L31)
+
+> You can check the complete demo code for this part [here\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L31).
+
+```dart
+Future<dynamic> showGameListView(BuildContext context, String userID) {
+  return showModalBottomSheet(context: context,
+    builder: (context) {
+      return SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('GameList', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 5),
+              ValueListenableBuilder(
+                // Get Game List
+                valueListenable: ZegoMiniGame().getAllGameList(),
+                builder: (BuildContext context, List<dynamic> gameList, Widget? child) {
+                  // RENDER THE GAME LIST HERE
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+```
 
 
-### User Currency
 
-Please note that before starting the game:
+
+
+### Start the game
+
+<div class="mk-hint">
+
+Before starting the game:
 
 1. You need to use `YourGameServer().exchangeUserCurrency` to exchange game coins for the user.
 2. And use `YourGameServer().getUserCurrency` to query the current amount of game coins for the user.
 
-You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45)
 
+Demo will call these two methods every time it enters the game, please refer to [here\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45). You need to adjust the specific logic of `Currency` according to your own needs.
 
-### start the game
+</div>
+
 
 After obtaining the game list, you can load the game by using `ZegoMiniGame().loadGame()`.
 
-You can refer to [this part of the code\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45)
+```dart
+final loadGameResult = await ZegoMiniGame().loadGame(
+  gameID: gameID,
+  gameMode: ZegoGameMode.fullScreen,
+  loadGameConfig: ZegoLoadGameConfig(minGameCoin: 100),
+);
+debugPrint('[APP]loadGameResult: $loadGameResult');
+Navigator.pop(context, gameID);
+```
 
 
+> You can check the complete demo code for this part [here\|_blank](https://github.com/ZEGOCLOUD/zego_uikit_prebuilt_live_streaming_example_flutter/blob/master/live_streaming_with_minigame/lib/minigame/show_game_list_view.dart#L54C45-L54C45).
+
+### Stop the game
+
+`unloadGame` is used to quit the game.
+
+```dart
+await ZegoMiniGame().unloadGame();
+```
 
 # Conclusion
 
 Congratulations! Hereby you have completed the development of minigame feature. 
 
 If you have any suggestions or comments, feel free to share them with us via [Discord\|_blank](https://discord.gg/EtNRATttyp). We value your feedback.
-
