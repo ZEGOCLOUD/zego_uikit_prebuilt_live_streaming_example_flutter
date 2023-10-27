@@ -61,6 +61,11 @@ class LivePageState extends State<LivePage> {
         userName: 'user_$localUserID',
         liveID: widget.liveID,
         controller: liveController,
+        events: ZegoUIKitPrebuiltLiveStreamingEvents(
+          onError: (ZegoUIKitError error) {
+            debugPrint('onError:$error');
+          },
+        ),
         config: (widget.isHost ? hostConfig : audienceConfig)
           ..avatarBuilder = customAvatarBuilder
           ..audioVideoViewConfig.useVideoViewAspectFill = false
