@@ -16,15 +16,15 @@ dependencies:
   flutter_screenutil: ">=5.5.3+2 <5.6.1"
   cached_network_image: ^3.3.0
 
-  zego_uikit: ^2.14.3
-  zego_uikit_signaling_plugin: ^2.6.2
-  zego_uikit_prebuilt_live_streaming: ^2.22.3
+  zego_uikit: ^2.14.7
+  zego_uikit_signaling_plugin: ^2.6.6
+  zego_uikit_prebuilt_live_streaming: ^2.22.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^3.0.0
   dart_code_metrics: any
 
 flutter:
