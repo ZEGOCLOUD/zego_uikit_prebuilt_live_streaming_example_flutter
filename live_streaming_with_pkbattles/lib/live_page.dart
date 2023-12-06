@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:live_streaming_with_pkbattles/cancel_pk_battle_request_button.dart';
-import 'package:live_streaming_with_pkbattles/common.dart';
-import 'package:live_streaming_with_pkbattles/constants.dart';
-import 'package:live_streaming_with_pkbattles/mute_another_host_button.dart';
-import 'package:live_streaming_with_pkbattles/send_pk_bttle_request_button.dart';
-import 'package:live_streaming_with_pkbattles/stop_pk_battle_button.dart';
+import 'package:live_streaming_with_pkbattles/pk_widgets/config.dart';
+
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
+import 'package:live_streaming_with_pkbattles/common.dart';
+import 'package:live_streaming_with_pkbattles/constants.dart';
+import 'package:live_streaming_with_pkbattles/pk_widgets/events.dart';
+import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/mute_button.dart';
+import 'package:live_streaming_with_pkbattles/pk_widgets/surface.dart';
 
 class LivePage extends StatefulWidget {
   final String liveID;
@@ -26,42 +28,51 @@ class LivePage extends StatefulWidget {
 
 class _LivePageState extends State<LivePage> {
   final liveController = ZegoUIKitPrebuiltLiveStreamingController();
-  ValueNotifier<ZegoLiveStreamingState> liveStreamingState =
-      ValueNotifier(ZegoLiveStreamingState.idle);
+  final liveStateNotifier =
+      ValueNotifier<ZegoLiveStreamingState>(ZegoLiveStreamingState.idle);
 
-  bool showingDialog = false;
+  final requestingHostsMapRequestIDNotifier =
+      ValueNotifier<Map<String, List<String>>>({});
+  final requestIDNotifier = ValueNotifier<String>('');
+  PKEvents? pkEvents;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pkEvents = PKEvents(
+      requestIDNotifier: requestIDNotifier,
+      requestingHostsMapRequestIDNotifier: requestingHostsMapRequestIDNotifier,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    late ZegoUIKitPrebuiltLiveStreamingConfig config;
-    if (widget.isHost) {
-      config = ZegoUIKitPrebuiltLiveStreamingConfig.host(
-        plugins: [ZegoUIKitSignalingPlugin()],
-      );
-      config.audioVideoViewConfig.foregroundBuilder = pkBattleForegroundBuilder;
-    } else {
-      config = ZegoUIKitPrebuiltLiveStreamingConfig.audience(
-        plugins: [ZegoUIKitSignalingPlugin()],
-      );
-    }
+    final config = (widget.isHost
+        ? (ZegoUIKitPrebuiltLiveStreamingConfig.host(
+            plugins: [ZegoUIKitSignalingPlugin()],
+          )
 
-    config
+          /// on host can control pk
+          ..foreground = PKV2Surface(
+            liveController: liveController,
+            requestIDNotifier: requestIDNotifier,
+            liveStateNotifier: liveStateNotifier,
+            requestingHostsMapRequestIDNotifier:
+                requestingHostsMapRequestIDNotifier,
+          ))
+        : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
+            plugins: [ZegoUIKitSignalingPlugin()],
+          ))
       ..onLiveStreamingStateUpdate = (state) {
-        liveStreamingState.value = state;
-        if (state == ZegoLiveStreamingState.inPKBattle && showingDialog) {
-          // Dismiss the dialog.
-          showingDialog = false;
-          Navigator.of(context).pop();
-        }
+        liveStateNotifier.value = state;
       }
       ..avatarBuilder = customAvatarBuilder
+      ..audioVideoViewConfig.foregroundBuilder = foregroundBuilder
+      ..pkBattleV2Config = pkConfig()
 
       /// support minimizing
       ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton];
-
-    if (widget.isHost) {
-      config.foreground = Stack(children: [pkBattleButton()]);
-    }
 
     return SafeArea(
       child: Scaffold(
@@ -75,6 +86,9 @@ class _LivePageState extends State<LivePage> {
               liveID: widget.liveID,
               config: config,
               controller: liveController,
+              events: ZegoUIKitPrebuiltLiveStreamingEvents(
+                pkEvents: pkEvents?.event,
+              ),
             ),
           ],
         ),
@@ -82,54 +96,81 @@ class _LivePageState extends State<LivePage> {
     );
   }
 
-  Widget pkBattleButton() {
-    return ValueListenableBuilder(
-      valueListenable: liveStreamingState,
-      builder: (context, value, Widget? child) {
-        if ((value == ZegoLiveStreamingState.idle) ||
-            (value == ZegoLiveStreamingState.ended)) {
-          return const SizedBox.shrink();
-        }
+  Widget foregroundBuilder(context, size, ZegoUIKitUser? user, _) {
+    if (user == null) {
+      return Container();
+    }
 
-        return Positioned(
-          bottom: 80,
-          right: 10,
-          child: ValueListenableBuilder(
-            valueListenable:
-                ZegoUIKitPrebuiltLiveStreamingPKService().pkBattleState,
-            builder:
-                (context, ZegoLiveStreamingPKBattleState pkBattleState, _) {
-              switch (pkBattleState) {
-                case ZegoLiveStreamingPKBattleState.idle:
-                  return const SendPKBattleRequestButton();
-                case ZegoLiveStreamingPKBattleState.waitingAnotherHostResponse:
-                  return const CancelPKBattleRequestButton();
-                case ZegoLiveStreamingPKBattleState.waitingMyResponse:
-                case ZegoLiveStreamingPKBattleState.loading:
-                  return const CircularProgressIndicator();
-                case ZegoLiveStreamingPKBattleState.inPKBattle:
-                  return const StopPKBattleButton();
-              }
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget pkBattleForegroundBuilder(context, size, ZegoUIKitUser? user, _) {
-    if (user != null && user.id != widget.localUserID) {
-      return const Positioned(
+    final hostWidgets = [
+      /// mute pk user
+      Positioned(
         top: 5,
         left: 5,
         child: SizedBox(
           width: 40,
           height: 40,
-          child: MuteAnotherHostButton(),
+          child: PKMuteButton(
+            userID: user.id,
+            liveController: liveController,
+          ),
         ),
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
+      ),
+    ];
+
+    return Stack(
+      children: [
+        ...((widget.isHost && user.id != widget.localUserID)
+            ? hostWidgets
+            : []),
+
+        /// camera state
+        Positioned(
+          top: 5,
+          right: 35,
+          child: SizedBox(
+            width: 18,
+            height: 18,
+            child: CircleAvatar(
+              backgroundColor: Colors.purple.withOpacity(0.6),
+              child: Icon(
+                user.camera.value ? Icons.videocam : Icons.videocam_off,
+                color: Colors.white,
+                size: 15,
+              ),
+            ),
+          ),
+        ),
+
+        /// microphone state
+        Positioned(
+          top: 5,
+          right: 5,
+          child: SizedBox(
+            width: 18,
+            height: 18,
+            child: CircleAvatar(
+              backgroundColor: Colors.purple.withOpacity(0.6),
+              child: Icon(
+                user.microphone.value ? Icons.mic : Icons.mic_off,
+                color: Colors.white,
+                size: 15,
+              ),
+            ),
+          ),
+        ),
+
+        /// name
+        Positioned(
+          top: 25,
+          right: 5,
+          child: Container(
+            // width: 30,
+            height: 18,
+            color: Colors.purple,
+            child: Text(user?.name ?? ''),
+          ),
+        ),
+      ],
+    );
   }
 }
