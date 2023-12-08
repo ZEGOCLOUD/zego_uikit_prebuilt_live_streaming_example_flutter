@@ -44,18 +44,20 @@ class ZegoLoadGameConfig {
   Map specificConfig;
 
   ZegoLoadGameConfig({
-    this.useRobot = false,
+    required this.useRobot,
     this.roomID,
-    this.minGameCoin = 0,
+    required this.minGameCoin,
     this.coinIconUrl,
     this.customPlaySound = false,
     this.specificConfig = const {},
-  });
+  }) {
+    minGameCoin = max(minGameCoin, 0);
+  }
 
   Map<String, dynamic> toMap() {
     final _data = <String, dynamic>{};
     _data['roomId'] = roomID;
-    _data['minGameCoin'] = minGameCoin;
+    _data['minGameCoin'] = max(minGameCoin, 0);
     _data['customPlaySound'] = customPlaySound;
     _data['useRobot'] = useRobot;
     _data['specificConfig'] = specificConfig;

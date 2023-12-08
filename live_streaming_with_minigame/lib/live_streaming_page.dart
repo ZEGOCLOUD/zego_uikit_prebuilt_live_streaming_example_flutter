@@ -4,17 +4,18 @@ import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'common.dart';
 import 'constants.dart';
-import 'minigame/service/mini_game.dart';
-import 'minigame/show_game_list_view.dart';
+import 'main.dart';
+import 'minigame/service/mini_game_api.dart';
+import 'minigame/ui/show_game_list_view.dart';
 import 'minigame/your_game_server.dart';
 
-class LivePage extends StatefulWidget {
+class LiveStreamingPage extends StatefulWidget {
   final String liveID;
   final bool isHost;
   final String userID;
   final String userName;
 
-  const LivePage({
+  const LiveStreamingPage({
     Key? key,
     required this.liveID,
     required this.userID,
@@ -23,10 +24,10 @@ class LivePage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => LivePageState();
+  State<StatefulWidget> createState() => LiveStreamingPageState();
 }
 
-class LivePageState extends State<LivePage> {
+class LiveStreamingPageState extends State<LiveStreamingPage> {
   final liveController = ZegoUIKitPrebuiltLiveStreamingController();
   final liveStreamingStateNotifier = ValueNotifier(ZegoLiveStreamingState.idle);
   bool playing = false;
@@ -61,8 +62,7 @@ class LivePageState extends State<LivePage> {
               config: (widget.isHost ? hostConfig : audienceConfig)
                 ..avatarBuilder = customAvatarBuilder
                 ..audioVideoViewConfig.useVideoViewAspectFill = false
-                ..onLiveStreamingStateUpdate =
-                    (state) => liveStreamingStateNotifier.value = state,
+                ..onLiveStreamingStateUpdate = (state) => liveStreamingStateNotifier.value = state,
             ),
             Offstage(
               offstage: !playing,
@@ -83,14 +83,12 @@ class LivePageState extends State<LivePage> {
                     token: token,
                     userID: widget.userID,
                     userName: widget.userName,
-                    avatarUrl:
-                        'https://robohash.org/${widget.userID}.png?set=set4',
+                    avatarUrl: Uri.encodeComponent('https://robohash.org/${widget.userID}.png?set=set4'),
                     language: GameLanguage.english,
                   );
                 },
                 onConsoleMessage: (controller, ConsoleMessage msg) async {
-                  debugPrint(
-                      '[InAppWebView][${msg.messageLevel}]${msg.message}');
+                  debugPrint('[InAppWebView][${msg.messageLevel}]${msg.message}');
                 },
               ),
             ),
@@ -117,9 +115,39 @@ class LivePageState extends State<LivePage> {
           child: FloatingActionButton.extended(
             onPressed: () async {
               if (!playing) {
-                showGameListView(context, widget.userID).then((gameID) {
-                  if (gameID != null) {
-                    setState(() => playing = true);
+                showGameListView(context).then((ZegoGameInfo? gameInfo) async {
+                  if (gameInfo != null) {
+                    try {
+                      final gameID = gameInfo.miniGameId!;
+                      final gameMode = gameInfo.gameMode!;
+                      final loadGameResult = await ZegoMiniGame().loadGame(
+                        gameID: gameID,
+                        gameMode: ZegoGameMode.values.where((element) => element.value == gameMode[0]).first,
+                        loadGameConfig: ZegoLoadGameConfig(minGameCoin: 0, roomID: widget.liveID, useRobot: true),
+                      );
+                      debugPrint('[APP]loadGameResult: $loadGameResult');
+
+                      debugPrint('[APP]enter game: $gameID');
+                      final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
+                        appID: yourAppID,
+                        gameID: gameID,
+                        userID: widget.userID,
+                        exchangeValue: 10000,
+                        outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
+                      );
+                      debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
+
+                      final getUserCurrencyResult = await YourGameServer().getUserCurrency(
+                        appID: yourAppID,
+                        userID: widget.userID,
+                        gameID: gameID,
+                      );
+                      debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
+
+                      setState(() => playing = true);
+                    } catch (e) {
+                      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text('$e')));
+                    }
                   }
                 });
               } else {
@@ -128,9 +156,7 @@ class LivePageState extends State<LivePage> {
               }
             },
             label: playing ? const Text('Quit Game') : const Text('Game List'),
-            icon: playing
-                ? const Icon(Icons.arrow_back)
-                : const Icon(Icons.games),
+            icon: playing ? const Icon(Icons.arrow_back) : const Icon(Icons.games),
           ),
         );
       },

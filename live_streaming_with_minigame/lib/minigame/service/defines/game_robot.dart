@@ -1,14 +1,14 @@
 part of 'game_defines.dart';
 
-class ZegoRobotAttribute {
+class ZegoGameRobot {
   int robotLevel;
   int seatIndex;
   String robotName;
   String robotAvatar;
   int robotCoin;
 
-  ZegoRobotAttribute({
-    required this.robotLevel,
+  ZegoGameRobot({
+    this.robotLevel = 0,
     required this.seatIndex,
     required this.robotName,
     required this.robotAvatar,
@@ -26,4 +26,8 @@ class ZegoRobotAttribute {
   }
 
   String toJson() => json.encode(toMap());
+
+  @override
+  String toString() =>
+      'ZegoGameRobot: robotLevel: $robotLevel, seatIndex: $seatIndex, robotName: $robotName, robotAvatar: $robotAvatar, robotCoin: $robotCoin';
 }

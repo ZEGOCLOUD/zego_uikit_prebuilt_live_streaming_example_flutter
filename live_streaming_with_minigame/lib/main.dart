@@ -6,23 +6,18 @@ import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_stre
 
 import 'home_page.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final navigatorKey = GlobalKey<NavigatorState>();
-
   ZegoUIKit().initLog().then((value) {
-    runApp(MyApp(
-      navigatorKey: navigatorKey,
-    ));
+    runApp(const MyApp());
   });
 }
 
 class MyApp extends StatefulWidget {
-  final GlobalKey<NavigatorState> navigatorKey;
-
   const MyApp({
-    required this.navigatorKey,
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +31,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       home: HomePage(),
-      navigatorKey: widget.navigatorKey,
+      navigatorKey: navigatorKey,
       builder: (BuildContext context, Widget? child) {
         return Stack(
           children: [
@@ -45,7 +40,7 @@ class MyAppState extends State<MyApp> {
             /// support minimizing
             ZegoUIKitPrebuiltLiveStreamingMiniOverlayPage(
               contextQuery: () {
-                return widget.navigatorKey.currentState!.context;
+                return navigatorKey.currentState!.context;
               },
             ),
           ],

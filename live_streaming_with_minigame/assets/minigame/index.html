@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html style="width: 100%; height: 100%; margin: 0; padding: 0;">
+<header>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</header>
+
 
 <head>
   <title>Video auto play</title>
   <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-  <script>
-    // VConsole 默认会挂载到 `window.VConsole` 上
-    var vConsole = new window.VConsole();
-  </script>
+  <!-- 
+    <script>
+      var vConsole = new window.VConsole();
+    </script>
+  -->
   <script type="text/javascript" src="./index.js"></script>
 </head>
 
@@ -42,22 +48,24 @@
     function init(jsonString) {
       console.warn('js-init:params]', jsonString);
       var data = JSON.parse(jsonString);
+      console.warn('js-init:data]', data);
       return new Promise((resolve, reject) => {
         ZegoMiniGameEngine.init(data.appID, data.token, data.userInfo).then((instance) => {
           gameInstance = instance;
-          instance.on("tokenWillExpire", handleTokenWillExpire); // token过期回调
-          instance.on("unloaded", handleUnloaded); // 游戏被销毁通知
-          instance.on("languageChanged", handleLanguageChanged);
-          instance.on("chargeRequire", handleChargeRequire); // 金币不足提示通知
-          instance.on("playerStateUpdate", handlePlayerStateUpdate); // 参与游戏的玩家状态更新
-          instance.on("gameStateUpdate", handleGameStateUpdate); // 游戏状态更新
-          instance.on("gameLoadStateUpdate", handleGameLoadStateUpdate); // 游戏加载状态更新通知
-          instance.on("actionEventUpdate", handleActionEventUpdate);
-          instance.on("gameOverDetailUpdate", handleGameOverDetailUpdate);
-          instance.on("gameError", handleGameError);
-          instance.on("gameSoundPlay", handleGameSoundPlay);
-          instance.on("gameSoundVolumeChange", handleGameSoundVolumeChange);
-          instance.on("robotConfigRequire", handleRobotConfigRequire);
+          instance.on("tokenWillExpire", tokenWillExpire); // token过期回调
+          instance.on("unloaded", unloaded); // 游戏被销毁通知
+          instance.on("languageChanged", languageChanged);
+          instance.on("chargeRequire", chargeRequire); // 金币不足提示通知
+          instance.on("playerStateUpdate", playerStateUpdate); // 参与游戏的玩家状态更新
+          instance.on("gameStateUpdate", gameStateUpdate); // 游戏状态更新
+          instance.on("loadStateUpdate", loadStateUpdate); // 游戏加载状态更新通知
+          instance.on("actionEventUpdate", actionEventUpdate);
+          instance.on("gameOverDetailUpdate", gameOverDetailUpdate);
+          instance.on("gameError", gameError);
+          instance.on("gameResult", gameResult);
+          instance.on("gameSoundPlay", gameSoundPlay);
+          instance.on("gameSoundVolumeChange", gameSoundVolumeChange);
+          instance.on("robotConfigRequire", robotConfigRequire);
 
           console.warn('[js-init:instance]', instance);
           window.flutter_inappwebview.callHandler('initHandler', instance);
@@ -75,77 +83,84 @@
     }
 
 
-    function handleGameResult(data) {
-      console.warn('gameResult', data);
-      window.flutter_inappwebview.callHandler('handleGameResult', data);
+    function gameResult(data) {
+      console.warn('[js-gameResult]', data);
+      window.flutter_inappwebview.callHandler('gameResult', data);
     }
 
-    function handleGameError(data) {
-      console.warn('gameError', data);
-      window.flutter_inappwebview.callHandler('handleGameError', data);
+    function gameError(data) {
+      console.warn('js-gameError]', data);
+      window.flutter_inappwebview.callHandler('gameError', data);
     }
 
-    function handleRobotConfigRequire(data) {
+    function robotConfigRequire(data) {
       let robotLevel = 1;
       let robotName = 'dddkdkd';
       let robotAvatar = 'http://seven-sea-test.oss-cn-shenzhen.aliyuncs.com/default/Robot_avatar.png';
       let useRobotAfterSeconds = 10;
       let robotWalletMin = 1000;
       let robotWalletMax = 10000;
-      console.warn('js-handleRobotConfigRequire', data);
-      console.warn('robotConfigRequire', data.done(parseInt(robotLevel), robotName, robotAvatar, parseInt(useRobotAfterSeconds), parseInt(robotWalletMin), parseInt(robotWalletMax)));
-      window.flutter_inappwebview.callHandler('handleRobotConfigRequire', data);
+      console.warn('[js-robotConfigRequire], data', data);
+      console.warn('[js-robotConfigRequire], ', data.done(parseInt(robotLevel), robotName, robotAvatar, parseInt(useRobotAfterSeconds), parseInt(robotWalletMin), parseInt(robotWalletMax)));
+      window.flutter_inappwebview.callHandler('robotConfigRequire', data);
     }
 
 
-    async function handleGameLoadStateUpdate(data) {
-      console.warn('gameLoadStateUpdate', data);
+    async function loadStateUpdate(data) {
+      console.warn('[js-loadStateUpdate]', data);
       console.warn(await instance.getGameComponentList());
-      window.flutter_inappwebview.callHandler('handleGameLoadStateUpdate', data);
+      window.flutter_inappwebview.callHandler('loadStateUpdate', data);
     }
 
-    function handleActionEventUpdate(data) {
-      console.warn('actionEventUpdate', data);
+    function actionEventUpdate(data) {
+      console.warn('[js-actionEventUpdate]', data);
+      window.flutter_inappwebview.callHandler('actionEventUpdate', data);
     }
 
-    function handleGameOverDetailUpdate(data) {
-
+    function gameOverDetailUpdate(data) {
+      console.warn('[js-gameOverDetailUpdate]', data);
+      window.flutter_inappwebview.callHandler('gameOverDetailUpdate', data);
     }
 
-    async function handleTokenWillExpire(data) {
-      console.warn('tokenWillExpire', data);
-      window.flutter_inappwebview.callHandler('handleTokenWillExpire', data);
+    async function tokenWillExpire(data) {
+      console.warn('[js-tokenWillExpire]', data);
+      window.flutter_inappwebview.callHandler('tokenWillExpire', data);
     }
 
-    function handleUnloaded(data) {
-      console.warn('unloaded', data);
+    function unloaded(data) {
+      console.warn('[js-unloaded]', data);
+      window.flutter_inappwebview.callHandler('unloaded', data);
     }
 
 
-    function handleLanguageChanged(data) {
-      console.warn('languageChanged', data);
-
+    function languageChanged(data) {
+      console.warn('[js-languageChanged]', data);
+      window.flutter_inappwebview.callHandler('languageChanged', data);
     }
 
-    function handleChargeRequire(data) {
-      console.warn('chargeRequire', data);
-
+    function chargeRequire(data) {
+      console.warn('[js-chargeRequire]', data);
+      window.flutter_inappwebview.callHandler('chargeRequire', data);
     }
 
-    function handlePlayerStateUpdate(data) {
-      console.warn('playerStateUpdate', data);
+    function playerStateUpdate(data) {
+      console.warn('[js-playerStateUpdate]', data);
+      window.flutter_inappwebview.callHandler('playerStateUpdate', data);
     }
 
-    function handleGameStateUpdate(data) {
-      console.warn('gameStateUpdate', data);
+    function gameStateUpdate(data) {
+      console.warn('[js-gameStateUpdate]', data);
+      window.flutter_inappwebview.callHandler('gameStateUpdate', data);
     }
 
-    function handleGameSoundPlay(data) {
-      console.warn('gameSoundPlay', data);
+    function gameSoundPlay(data) {
+      console.warn('[js-gameSoundPlay]', data);
+      window.flutter_inappwebview.callHandler('gameSoundPlay', data);
     }
 
-    function handleGameSoundVolumeChange(data) {
-      console.warn('gameSoundVolumeChange', data);
+    function gameSoundVolumeChange(data) {
+      console.warn('[js-gameSoundVolumeChange]', data);
+      window.flutter_inappwebview.callHandler('gameSoundVolumeChange', data);
     }
 
 
@@ -157,7 +172,7 @@
       return new Promise(function (resolve, reject) {
         ZegoMiniGameEngine.getInstance().getAllGameList().then((result) => {
           resolve(JSON.stringify(result));
-          console.warn('[js-getGameList:result]', result.list[0]);
+          console.warn('[js-getGameList:result.list[0]]', JSON.stringify(result));
           window.flutter_inappwebview.callHandler('getGameListHandler', result);
         }).catch((err) => {
           reject(JSON.stringify());
@@ -222,7 +237,7 @@
         ZegoMiniGameEngine.getInstance().loadGame(data.gameID, data.gameMode, data.config).then((data) => {
           resolve(data);
           console.warn('[js-loadGame:data]', data);
-          window.flutter_inappwebview.callHandler('loadGameHandler', data);
+          window.flutter_inappwebview.callHandler('gameLoaded', data);
         }).catch((err) => {
           reject(JSON.stringify(err));
           console.error('[js-loadGame:error]', err);
@@ -260,6 +275,14 @@
       if (ins) {
         ins.setGameLanguage(language);
         console.warn('[js-setLanguage:language]', language);
+      }
+    }
+
+    function updateToken(token) {
+      const ins = ZegoMiniGameEngine.getInstance();
+      if (ins) {
+        ins.updateToken(token);
+        console.warn('[js-updateToken:token]');
       }
     }
 

@@ -10,17 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 import 'constants.dart';
-import 'minigame/service/mini_game.dart';
-import 'minigame/show_game_list_view.dart';
+import 'main.dart';
+import 'minigame/service/mini_game_api.dart';
+import 'minigame/ui/show_game_list_view.dart';
 import 'minigame/your_game_server.dart';
-import 'secret.dart';
 
 class ZegoMiniGamePage extends StatefulWidget {
-  const ZegoMiniGamePage(
-      {super.key,
-      required this.userID,
-      required this.userName,
-      required this.roomID});
+  const ZegoMiniGamePage({super.key, required this.userID, required this.userName, required this.roomID});
 
   final String roomID;
   final String userID;
@@ -53,24 +49,26 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                   ZegoMiniGame().initWebViewController(controller);
                 },
                 onLoadStop: (controller, url) async {
-                  final token = await YourGameServer().getToken(
-                    appID: yourAppID,
-                    userID: widget.userID,
-                  );
-
-                  await ZegoMiniGame().initGameSDK(
-                    appID: yourAppID,
-                    token: token,
-                    userID: widget.userID,
-                    userName: widget.userName,
-                    avatarUrl:
-                        'https://robohash.org/${widget.userID}.png?set=set4',
-                    language: GameLanguage.english,
-                  );
+                  try {
+                    final token = await YourGameServer().getToken(
+                      appID: yourAppID,
+                      userID: widget.userID,
+                    );
+                    await ZegoMiniGame().initGameSDK(
+                      appID: yourAppID,
+                      token: token,
+                      userID: widget.userID,
+                      userName: widget.userName,
+                      avatarUrl: Uri.encodeComponent('https://robohash.org/${widget.userID}.png?set=set4'),
+                      language: GameLanguage.english,
+                    );
+                  } catch (e) {
+                    debugPrint('$e');
+                    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text('$e')));
+                  }
                 },
                 onConsoleMessage: (controller, ConsoleMessage msg) async {
-                  debugPrint(
-                      '[InAppWebView][${msg.messageLevel}]${msg.message}');
+                  debugPrint('[InAppWebView][${msg.messageLevel}]${msg.message}');
                 },
               ),
               Visibility(
@@ -82,9 +80,44 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                   child: FloatingActionButton.extended(
                     onPressed: () async {
                       if (!playing) {
-                        showGameListView(context, widget.userID).then((gameID) {
-                          if (gameID != null) {
-                            setState(() => playing = true);
+                        showGameListView(context).then((ZegoGameInfo? gameInfo) async {
+                          if (gameInfo != null) {
+                            try {
+                              final gameID = gameInfo.miniGameId!;
+                              final gameMode = gameInfo.gameMode!;
+                              final loadGameResult = await ZegoMiniGame().loadGame(
+                                gameID: gameID,
+                                gameMode: ZegoGameMode.values.where((element) => element.value == gameMode[0]).first,
+                                loadGameConfig: ZegoLoadGameConfig(
+                                  minGameCoin: 0,
+                                  roomID: widget.roomID,
+                                  useRobot: true,
+                                ),
+                              );
+                              debugPrint('[APP]loadGameResult: $loadGameResult');
+
+                              debugPrint('[APP]enter game: $gameID');
+                              final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
+                                appID: yourAppID,
+                                gameID: gameID,
+                                userID: widget.userID,
+                                exchangeValue: 10000,
+                                outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
+                              );
+                              debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
+
+                              final getUserCurrencyResult = await YourGameServer().getUserCurrency(
+                                appID: yourAppID,
+                                userID: widget.userID,
+                                gameID: gameID,
+                              );
+                              debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
+
+                              setState(() => playing = true);
+                            } catch (e) {
+                              ScaffoldMessenger.of(navigatorKey.currentContext!)
+                                  .showSnackBar(SnackBar(content: Text('$e')));
+                            }
                           }
                         });
                       } else {
@@ -92,12 +125,8 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                         setState(() => playing = false);
                       }
                     },
-                    label: playing
-                        ? const Text('Quit Game')
-                        : const Text('Game List'),
-                    icon: playing
-                        ? const Icon(Icons.arrow_back)
-                        : const Icon(Icons.games),
+                    label: playing ? const Text('Quit Game') : const Text('Game List'),
+                    icon: playing ? const Icon(Icons.arrow_back) : const Icon(Icons.games),
                   ),
                 ),
               )
