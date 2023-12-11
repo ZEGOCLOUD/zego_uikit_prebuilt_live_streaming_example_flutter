@@ -232,6 +232,8 @@ class InRoomGameController {
 
         gameList.addListener(onGameListUpdate);
       } else {
+        // If a player or audience clicks the close button in the game and unloads the game, 
+        // but the game is still ongoing in the room, the game will automatically reload here.
         loadGame(gameID);
       }
     }
