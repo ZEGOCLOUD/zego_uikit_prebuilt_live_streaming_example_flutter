@@ -41,6 +41,8 @@ class InRoomGameController {
             .then((ZegoSignalingPluginQueryRoomPropertiesResult result) {
           if (result.error == null && result.properties.containsKey(attributeKeyRoomGame)) {
             final gameID = result.properties[attributeKeyRoomGame]!;
+            // If a player or audience clicks the close button in the game and unloads the game, 
+            // but the game is still ongoing in the room, the game will automatically reload here.
             loadGame(gameID);
           }
         });
@@ -222,6 +224,8 @@ class InRoomGameController {
 
       final gameList = ZegoMiniGame().getAllGameList();
 
+      // If the gameList has not been loaded successfully at this time, 
+      // wait here for the game list to be loaded and then proceed to load the game.
       if (gameList.value.where((e) => e.miniGameId == gameID).isEmpty) {
         void onGameListUpdate() {
           if (gameList.value.where((e) => e.miniGameId == gameID).isNotEmpty) {
@@ -232,8 +236,6 @@ class InRoomGameController {
 
         gameList.addListener(onGameListUpdate);
       } else {
-        // If a player or audience clicks the close button in the game and unloads the game, 
-        // but the game is still ongoing in the room, the game will automatically reload here.
         loadGame(gameID);
       }
     }
