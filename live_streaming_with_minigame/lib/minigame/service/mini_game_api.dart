@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../constants.dart';
+import '../your_game_server.dart';
 import 'defines/game_defines.dart';
 
 export 'defines/game_defines.dart';
@@ -80,4 +82,5 @@ class ZegoMiniGame {
   Future<InAppWebViewController> get webViewController async => _ensureInited();
   final ValueNotifier<bool> loadedStateNotifier = ValueNotifier<bool>(false);
   final ValueNotifier<ZegoGameState> gameStateNotifier = ValueNotifier<ZegoGameState>(ZegoGameState.idel);
+  String currentUserID = '';
 }

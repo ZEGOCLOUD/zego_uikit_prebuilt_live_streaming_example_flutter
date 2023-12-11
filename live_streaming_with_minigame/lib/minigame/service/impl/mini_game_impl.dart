@@ -32,6 +32,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
       'token': token,
       'userInfo': {'userId': userID, 'userName': userName, 'avatar': avatarUrl}
     });
+    currentUserID = userID;
     final jsCode = "await init('$jsonParams');";
     final result = await _miniGameChannel(jsCode);
     debugPrint('$logTag$apiTag, initGameSDK, result: $result');
@@ -63,7 +64,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
     return result.value ?? 'unknown';
   }
 
-  _getGameDetails({required String gameID}) async {
+  Future<void> _getGameDetails({required String gameID}) async {
     if (gameListNotifier.value.where((e) => e.miniGameId == gameID).first.detail == null) {
       final jsonParams = gameID;
       final jsCode = "await getGameInfo('$jsonParams');";
@@ -79,6 +80,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
   }
 
   Future _updateToken(String token) async {
+    debugPrint('$logTag$apiTag, updateToken');
     final jsCode = "updateToken('$token');";
     return _miniGameChannel(jsCode);
   }

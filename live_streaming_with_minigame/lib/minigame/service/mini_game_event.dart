@@ -65,7 +65,9 @@ extension ZegoMiniGameEvent on ZegoMiniGame {
           })
       ..addJavaScriptHandler(
           handlerName: 'tokenWillExpire',
-          callback: (args) {
+          callback: (args) async {
+            final token = await YourGameServer().getToken(appID: yourAppID, userID: currentUserID);
+            updateToken(token);
             debugPrint('$logTag$eventTag, tokenWillExpire: $args');
           })
       ..addJavaScriptHandler(

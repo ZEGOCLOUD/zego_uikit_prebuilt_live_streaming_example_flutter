@@ -58,7 +58,7 @@ class LiveAudioRoomPageState extends State<LiveAudioRoomPage> {
 
     return PopScope(
       onPopInvoked: (bool didPop) async {
-        await _gameCtrl.uninit();
+        if (didPop) await _gameCtrl.uninit();
       },
       child: SafeArea(
         child: Stack(
