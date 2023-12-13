@@ -1,11 +1,9 @@
 // Dart imports:
 import 'dart:math' as math;
 
-import 'secret.dart';
-
-const int yourAppID = YourSecret.appID;
-const String yourAppSign = YourSecret.appSign;
-const String yourServerSecret = YourSecret.serverSecret;
+const int yourAppID = ;
+const String yourAppSign = ;
+const String yourServerSecret = ;
 
 /// Note that the userID needs to be globally unique,
-final String localUserID = math.Random().nextInt(10000).toString();
+final String localUserID = math.Random().nextInt(1000000).toString();

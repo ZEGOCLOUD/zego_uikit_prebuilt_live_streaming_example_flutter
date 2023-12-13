@@ -1,8 +1,11 @@
 // Flutter imports:
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+
+import 'main.dart';
 
 Widget customAvatarBuilder(
   BuildContext context,
@@ -21,8 +24,7 @@ Widget customAvatarBuilder(
         ),
       ),
     ),
-    progressIndicatorBuilder: (context, url, downloadProgress) =>
-        CircularProgressIndicator(value: downloadProgress.progress),
+    progressIndicatorBuilder: (context, url, _) => const CupertinoActivityIndicator(),
     errorWidget: (context, url, error) {
       ZegoLoggerService.logInfo(
         '$user avatar url is invalid',
@@ -32,4 +34,9 @@ Widget customAvatarBuilder(
       return ZegoAvatar(user: user, avatarSize: size);
     },
   );
+}
+
+void showSnackBar(String text) {
+  debugPrint('show snack bar: $text');
+  ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text(text)));
 }

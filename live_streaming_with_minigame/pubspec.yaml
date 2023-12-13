@@ -12,15 +12,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  zego_uikit: ^2.11.0
-  zego_uikit_prebuilt_live_streaming: ^2.18.0
-  zego_uikit_signaling_plugin: ^2.5.1
+  zego_uikit: ^2.15.1
+  zego_uikit_prebuilt_live_streaming: ^2.23.0
+  zego_uikit_signaling_plugin: ^2.7.1
 
   cupertino_icons: ^1.0.2
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   flutter_inappwebview: ^5.7.2+3
   dio: ^5.3.2
   encrypt: ^5.0.2
+  zego_uikit_prebuilt_live_audio_room: ^2.14.0
+  faker: ^2.1.0
 
 
 dev_dependencies:
@@ -34,5 +36,6 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/
     - assets/minigame/index.js
     - assets/minigame/index.html

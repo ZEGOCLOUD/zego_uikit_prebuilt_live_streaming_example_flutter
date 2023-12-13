@@ -1,14 +1,15 @@
 part of 'game_defines.dart';
 
 class StartGameParam {
-  List<ZegoRobotAttribute> robotList;
+  List<ZegoGameRobot> robotList;
   List<ZegoPlayer> playerList;
   ZegoStartGameConfig gameConfig;
 
-  StartGameParam(
-      {required this.robotList,
-      required this.playerList,
-      required this.gameConfig});
+  StartGameParam({
+    required this.playerList,
+    required this.gameConfig,
+    this.robotList = const [],
+  });
 
   Map<String, dynamic> toMap() {
     final _data = <String, dynamic>{};
@@ -21,8 +22,7 @@ class StartGameParam {
   String toJson() => json.encode(toMap());
 
   @override
-  String toString() =>
-      'StartGameParam: robotList: $robotList, playerList: $playerList, gameConfig: $gameConfig';
+  String toString() => 'StartGameParam: robotList: $robotList, playerList: $playerList, gameConfig: $gameConfig';
 }
 
 class LoadGameParam {
@@ -47,6 +47,5 @@ class LoadGameParam {
   String toJson() => json.encode(toMap());
 
   @override
-  String toString() =>
-      'LoadGameParam: gameID: $gameID, gameMode: $gameMode, loadGameConfig: $loadGameConfig';
+  String toString() => 'LoadGameParam: gameID: $gameID, gameMode: $gameMode, loadGameConfig: $loadGameConfig';
 }
