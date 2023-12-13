@@ -54,6 +54,12 @@
 @import wakelock_plus;
 #endif
 
+#if __has_include(<zego_callkit/ZegoCallkitPlugin.h>)
+#import <zego_callkit/ZegoCallkitPlugin.h>
+#else
+@import zego_callkit;
+#endif
+
 #if __has_include(<zego_express_engine/ZegoExpressEnginePlugin.h>)
 #import <zego_express_engine/ZegoExpressEnginePlugin.h>
 #else
@@ -95,6 +101,7 @@
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [WakelockPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"WakelockPlusPlugin"]];
+  [ZegoCallkitPlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoCallkitPlugin"]];
   [ZegoExpressEnginePlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoExpressEnginePlugin"]];
   [ZegoUikitPlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoUikitPlugin"]];
   [ZegoUikitSignalingPlugin registerWithRegistrar:[registry registrarForPlugin:@"ZegoUikitSignalingPlugin"]];
