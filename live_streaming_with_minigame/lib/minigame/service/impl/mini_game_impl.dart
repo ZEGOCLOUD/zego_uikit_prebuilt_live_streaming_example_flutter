@@ -33,7 +33,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
       'userInfo': {'userId': userID, 'userName': userName, 'avatar': avatarUrl}
     });
     currentUserID = userID;
-    final jsCode = "await init('$jsonParams');";
+    final jsCode = 'await init(JSON.stringify($jsonParams));';
     final result = await _miniGameChannel(jsCode);
     debugPrint('$logTag$apiTag, initGameSDK, result: $result');
     await ZegoMiniGame()._setLanguage(language);
@@ -66,8 +66,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
 
   Future<void> _getGameDetails({required String gameID}) async {
     if (gameListNotifier.value.where((e) => e.miniGameId == gameID).first.detail == null) {
-      final jsonParams = gameID;
-      final jsCode = "await getGameInfo('$jsonParams');";
+      final jsCode = "await getGameInfo('$gameID');";
       final result = await _miniGameChannel(jsCode);
       debugPrint('$logTag$apiTag, getGameInfo, result: $result');
     }
@@ -94,7 +93,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
     final loadGameParam = LoadGameParam(gameID: gameID, gameMode: gameMode, loadGameConfig: loadGameConfig);
     debugPrint('$logTag$apiTag, loadGame, loadGameParam:$loadGameParam');
     final jsonParams = loadGameParam.toJson();
-    final jsCode = "await loadGame('$jsonParams');";
+    final jsCode = 'await loadGame(JSON.stringify($jsonParams));';
     final result = await _miniGameChannel(jsCode);
     debugPrint('$logTag$apiTag, loadGame, result: $result');
     return result;
@@ -117,7 +116,7 @@ extension ZegoMiniGameInner on ZegoMiniGame {
     final startGameParam = StartGameParam(gameConfig: gameConfig, playerList: playerList, robotList: robotList);
     debugPrint('$logTag$apiTag, startGame, startGameParam:$startGameParam');
     final jsonParams = startGameParam.toJson();
-    final jsCode = "await startGame('$jsonParams');";
+    final jsCode = 'await startGame(JSON.stringify($jsonParams));';
     final result = await _miniGameChannel(jsCode);
     debugPrint('$logTag$apiTag, startGame, result:$result');
     return result;

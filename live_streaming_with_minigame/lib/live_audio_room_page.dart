@@ -7,7 +7,6 @@ import 'package:zego_uikit_prebuilt_live_audio_room/zego_uikit_prebuilt_live_aud
 
 import 'common.dart';
 import 'constants.dart';
-import 'main.dart';
 import 'minigame/service/mini_game_api.dart';
 import 'minigame/ui/show_game_list_view.dart';
 import 'minigame/ui/start_game_dialog.dart';

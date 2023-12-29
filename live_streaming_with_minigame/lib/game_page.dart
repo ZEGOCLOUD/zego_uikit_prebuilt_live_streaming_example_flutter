@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
+import 'common.dart';
 import 'constants.dart';
 import 'main.dart';
 import 'minigame/service/mini_game_api.dart';
@@ -64,7 +65,7 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                     );
                   } catch (e) {
                     debugPrint('$e');
-                    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text('$e')));
+                    showSnackBar('initGameSDK:$e');
                   }
                 },
                 onConsoleMessage: (controller, ConsoleMessage msg) async {
@@ -82,9 +83,9 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                       if (!playing) {
                         showGameListView(context).then((ZegoGameInfo? gameInfo) async {
                           if (gameInfo != null) {
+                            final gameID = gameInfo.miniGameId!;
+                            final gameMode = gameInfo.gameMode!;
                             try {
-                              final gameID = gameInfo.miniGameId!;
-                              final gameMode = gameInfo.gameMode!;
                               final loadGameResult = await ZegoMiniGame().loadGame(
                                 gameID: gameID,
                                 gameMode: ZegoGameMode.values.where((element) => element.value == gameMode[0]).first,
@@ -95,7 +96,11 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                                 ),
                               );
                               debugPrint('[APP]loadGameResult: $loadGameResult');
-
+                              setState(() => playing = true);
+                            } catch (e) {
+                              showSnackBar('loadGameResult:$e');
+                            }
+                            try {
                               debugPrint('[APP]enter game: $gameID');
                               final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
                                 appID: yourAppID,
@@ -105,18 +110,18 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                                 outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
                               );
                               debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
-
+                            } catch (e) {
+                              showSnackBar('exchangeUserCurrency:$e');
+                            }
+                            try {
                               final getUserCurrencyResult = await YourGameServer().getUserCurrency(
                                 appID: yourAppID,
                                 userID: widget.userID,
                                 gameID: gameID,
                               );
                               debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
-
-                              setState(() => playing = true);
                             } catch (e) {
-                              ScaffoldMessenger.of(navigatorKey.currentContext!)
-                                  .showSnackBar(SnackBar(content: Text('$e')));
+                              showSnackBar('getUserCurrency:$e');
                             }
                           }
                         });

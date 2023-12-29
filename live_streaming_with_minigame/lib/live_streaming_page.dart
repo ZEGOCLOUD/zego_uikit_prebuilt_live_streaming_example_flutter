@@ -4,7 +4,6 @@ import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'common.dart';
 import 'constants.dart';
-import 'main.dart';
 import 'minigame/service/mini_game_api.dart';
 import 'minigame/ui/show_game_list_view.dart';
 import 'minigame/your_game_server.dart';
@@ -117,17 +116,21 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
               if (!playing) {
                 showGameListView(context).then((ZegoGameInfo? gameInfo) async {
                   if (gameInfo != null) {
+                    final gameID = gameInfo.miniGameId!;
+                    final gameMode = gameInfo.gameMode!;
+                    debugPrint('[APP]load game: $gameID');
                     try {
-                      final gameID = gameInfo.miniGameId!;
-                      final gameMode = gameInfo.gameMode!;
                       final loadGameResult = await ZegoMiniGame().loadGame(
                         gameID: gameID,
                         gameMode: ZegoGameMode.values.where((element) => element.value == gameMode[0]).first,
                         loadGameConfig: ZegoLoadGameConfig(minGameCoin: 0, roomID: widget.liveID, useRobot: true),
                       );
-                      debugPrint('[APP]loadGameResult: $loadGameResult');
-
-                      debugPrint('[APP]enter game: $gameID');
+                      debugPrint('[APP]loadGame: $loadGameResult');
+                      setState(() => playing = true);
+                    } catch (e) {
+                      showSnackBar('getUserCurrency:$e');
+                    }
+                    try {
                       final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
                         appID: yourAppID,
                         gameID: gameID,
@@ -136,17 +139,18 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
                         outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
                       );
                       debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
-
+                    } catch (e) {
+                      showSnackBar('exchangeUserCurrency:$e');
+                    }
+                    try {
                       final getUserCurrencyResult = await YourGameServer().getUserCurrency(
                         appID: yourAppID,
                         userID: widget.userID,
                         gameID: gameID,
                       );
                       debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
-
-                      setState(() => playing = true);
                     } catch (e) {
-                      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text('$e')));
+                      showSnackBar('getUserCurrency:$e');
                     }
                   }
                 });

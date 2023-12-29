@@ -41,7 +41,7 @@ class InRoomGameController {
             .then((ZegoSignalingPluginQueryRoomPropertiesResult result) {
           if (result.error == null && result.properties.containsKey(attributeKeyRoomGame)) {
             final gameID = result.properties[attributeKeyRoomGame]!;
-            // If a player or audience clicks the close button in the game and unloads the game, 
+            // If a player or audience clicks the close button in the game and unloads the game,
             // but the game is still ongoing in the room, the game will automatically reload here.
             loadGame(gameID);
           }
@@ -156,7 +156,10 @@ class InRoomGameController {
       );
       debugPrint('[APP]loadGame: $gameID');
       currentGameID = gameID;
-
+    } catch (e) {
+      showSnackBar('loadGame:$e');
+    }
+    try {
       final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
         appID: yourAppID,
         gameID: gameID,
@@ -165,7 +168,10 @@ class InRoomGameController {
         outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
       );
       debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
-
+    } catch (e) {
+      showSnackBar('exchangeUserCurrency:$e');
+    }
+    try {
       final getUserCurrencyResult = await YourGameServer().getUserCurrency(
         appID: yourAppID,
         userID: userID,
@@ -173,7 +179,7 @@ class InRoomGameController {
       );
       debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
     } catch (e) {
-      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text('$e')));
+      showSnackBar('getUserCurrency:$e');
     }
   }
 
@@ -224,7 +230,7 @@ class InRoomGameController {
 
       final gameList = ZegoMiniGame().getAllGameList();
 
-      // If the gameList has not been loaded successfully at this time, 
+      // If the gameList has not been loaded successfully at this time,
       // wait here for the game list to be loaded and then proceed to load the game.
       if (gameList.value.where((e) => e.miniGameId == gameID).isEmpty) {
         void onGameListUpdate() {

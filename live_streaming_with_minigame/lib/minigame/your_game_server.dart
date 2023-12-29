@@ -9,7 +9,7 @@ class YourGameServer {
   final apiToken = 'api/token';
   final apiGetUserCurrency = 'api/getUserCurrency';
   final apiExchangeUserCurrency = 'api/exchangeUserCurrency';
-  final dio = Dio();
+  final dio = Dio(BaseOptions(validateStatus: (status) => true));
 
   Future<String> getToken({required int appID, required String userID, String? serverSecret}) async {
     if (serverSecret?.isNotEmpty ?? false) {
