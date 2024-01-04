@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 //
@@ -67,13 +69,53 @@ class LivePageState extends State<LivePage> {
           },
         ),
         config: (widget.isHost ? hostConfig : audienceConfig)
-          ..avatarBuilder = customAvatarBuilder
           ..audioVideoViewConfig.useVideoViewAspectFill = false
 
           /// support minimizing
           ..topMenuBarConfig.buttons = [
             ZegoMenuBarButtonName.minimizingButton,
-          ],
+          ]
+
+          /// custom avatar
+          ..avatarBuilder = customAvatarBuilder
+
+          /// message attributes example
+          ..inRoomMessageConfig.attributes = userLevelsAttributes
+          ..inRoomMessageConfig.avatarLeadingBuilder = userLevelBuilder,
+      ),
+    );
+  }
+
+  Map<String, String> userLevelsAttributes() {
+    return {
+      'lv': Random(localUserID.hashCode).nextInt(100).toString(),
+    };
+  }
+
+  Widget userLevelBuilder(
+    BuildContext context,
+    ZegoInRoomMessage message,
+    Map<String, dynamic> extraInfo,
+  ) {
+    return Container(
+      alignment: Alignment.center,
+      height: 15,
+      width: 30,
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.purple.shade300, Colors.purple.shade400],
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Text(
+        "LV ${message.attributes['lv']}",
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 10,
+        ),
       ),
     );
   }
