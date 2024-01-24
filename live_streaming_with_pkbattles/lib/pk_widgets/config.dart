@@ -2,62 +2,57 @@ import 'package:flutter/material.dart';
 
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
-ZegoLiveStreamingPKBattleV2Config pkConfig() {
-  return ZegoLiveStreamingPKBattleV2Config(
-      // mixerLayout: PKGridLayout(),
-      // pKBattleViewTopPadding: 100,
-      // hostReconnectingBuilder: (
-      //   BuildContext context,
-      //   ZegoUIKitUser? host,
-      //   Map<String, dynamic> extraInfo,
-      // ) {
-      //   return const CircularProgressIndicator(
-      //     backgroundColor: Colors.red,
-      //     color: Colors.purple,
-      //   );
-      // },
-      // pkBattleViewForegroundBuilder: (
-      //   BuildContext context,
-      //   List<ZegoUIKitUser?> hosts,
-      //   Map<String, dynamic> extraInfo,
-      // ) {
-      //   return Positioned(
-      //     bottom: 80,
-      //     left: 0,
-      //     right: 0,
-      //     child: Container(
-      //       color: Colors.red,
-      //       child: const Center(
-      //         child: Text('pkBattleViewForegroundBuilder'),
-      //       ),
-      //     ),
-      //   );
-      // },
-      // pkBattleViewTopBuilder: (
-      //   BuildContext context,
-      //   List<ZegoUIKitUser?> hosts,
-      //   Map<String, dynamic> extraInfo,
-      // ) {
-      //   return Container(
-      //     color: Colors.red,
-      //     child: const Center(
-      //       child: Text('pkBattleViewTopBuilder'),
-      //     ),
-      //   );
-      // },
-      // pkBattleViewBottomBuilder: (
-      //   BuildContext context,
-      //   List<ZegoUIKitUser?> hosts,
-      //   Map<String, dynamic> extraInfo,
-      // ) {
-      //   return Container(
-      //     color: Colors.red,
-      //     child: const Center(
-      //       child: Text('pkBattleViewBottomBuilder'),
-      //     ),
-      //   );
-      // },
+ZegoLiveStreamingPKBattleConfig pkConfig() {
+  return ZegoLiveStreamingPKBattleConfig(
+    mixerLayout: PKGridLayout(),
+    pKBattleViewTopPadding: 100,
+    hostReconnectingBuilder: (
+      BuildContext context,
+      ZegoUIKitUser? host,
+      Map<String, dynamic> extraInfo,
+    ) {
+      return const CircularProgressIndicator(
+        backgroundColor: Colors.red,
+        color: Colors.purple,
       );
+    },
+    pkBattleViewForegroundBuilder: (
+      BuildContext context,
+      List<ZegoUIKitUser?> hosts,
+      Map<String, dynamic> extraInfo,
+    ) {
+      return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+        child: const Center(
+          child: Text('pkBattleViewForegroundBuilder'),
+        ),
+      );
+    },
+    pkBattleViewTopBuilder: (
+      BuildContext context,
+      List<ZegoUIKitUser?> hosts,
+      Map<String, dynamic> extraInfo,
+    ) {
+      return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.yellow)),
+        child: const Center(
+          child: Text('pkBattleViewTopBuilder'),
+        ),
+      );
+    },
+    pkBattleViewBottomBuilder: (
+      BuildContext context,
+      List<ZegoUIKitUser?> hosts,
+      Map<String, dynamic> extraInfo,
+    ) {
+      return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.yellow)),
+        child: const Center(
+          child: Text('pkBattleViewBottomBuilder'),
+        ),
+      );
+    },
+  );
 }
 
 /// two:
@@ -78,7 +73,7 @@ ZegoLiveStreamingPKBattleV2Config pkConfig() {
 /// ├───┼───┼───┤
 /// │😄 │😄 │   │
 /// └───┴───┴───┘
-class PKGridLayout extends ZegoPKV2MixerLayout {
+class PKGridLayout extends ZegoPKMixerLayout {
   @override
   Size getResolution() => const Size(1080, 960);
 

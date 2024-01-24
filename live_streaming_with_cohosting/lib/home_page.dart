@@ -39,7 +39,8 @@ class HomePage extends StatelessWidget {
               style: buttonStyle,
               child: const Text('Start a live'),
               onPressed: () {
-                if (ZegoUIKitPrebuiltLiveStreamingMiniOverlayMachine()
+                if (ZegoUIKitPrebuiltLiveStreamingController()
+                    .minimize
                     .isMinimizing) {
                   /// when the application is minimized (in a minimized state),
                   /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
@@ -59,7 +60,8 @@ class HomePage extends StatelessWidget {
               style: buttonStyle,
               child: const Text('Watch a live'),
               onPressed: () {
-                if (ZegoUIKitPrebuiltLiveStreamingMiniOverlayMachine()
+                if (ZegoUIKitPrebuiltLiveStreamingController()
+                    .minimize
                     .isMinimizing) {
                   /// when the application is minimized (in a minimized state),
                   /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.

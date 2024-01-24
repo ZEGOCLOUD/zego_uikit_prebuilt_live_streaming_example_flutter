@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:live_streaming/constants.dart';
 import 'package:live_streaming/live_page.dart';
+import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -37,22 +38,42 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
               style: buttonStyle,
               child: const Text('Start a live'),
-              onPressed: () => jumpToLivePage(
-                context,
-                liveID: liveTextCtrl.text.trim(),
-                isHost: true,
-              ),
+              onPressed: () {
+                if (ZegoUIKitPrebuiltLiveStreamingController()
+                    .minimize
+                    .isMinimizing) {
+                  /// when the application is minimized (in a minimized state),
+                  /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
+                  return;
+                }
+
+                jumpToLivePage(
+                  context,
+                  liveID: liveTextCtrl.text.trim(),
+                  isHost: true,
+                );
+              },
             ),
             const SizedBox(height: 20),
             // click me to navigate to LivePage
             ElevatedButton(
               style: buttonStyle,
               child: const Text('Watch a live'),
-              onPressed: () => jumpToLivePage(
-                context,
-                liveID: liveTextCtrl.text.trim(),
-                isHost: false,
-              ),
+              onPressed: () {
+                if (ZegoUIKitPrebuiltLiveStreamingController()
+                    .minimize
+                    .isMinimizing) {
+                  /// when the application is minimized (in a minimized state),
+                  /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
+                  return;
+                }
+
+                jumpToLivePage(
+                  context,
+                  liveID: liveTextCtrl.text.trim(),
+                  isHost: false,
+                );
+              },
             ),
           ],
         ),

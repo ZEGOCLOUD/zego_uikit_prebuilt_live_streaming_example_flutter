@@ -6,14 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 class PKRequestWidget extends StatefulWidget {
-  final ZegoUIKitPrebuiltLiveStreamingController liveController;
   final ValueNotifier<Map<String, List<String>>>
       requestingHostsMapRequestIDNotifier;
   final ValueNotifier<String> requestIDNotifier;
 
   const PKRequestWidget({
     Key? key,
-    required this.liveController,
     required this.requestIDNotifier,
     required this.requestingHostsMapRequestIDNotifier,
   }) : super(key: key);
@@ -72,7 +70,7 @@ class _PKRequestWidgetState extends State<PKRequestWidget> {
             valueListenable: hostIDTextController,
             builder: (context, value, _) {
               return SizedBox(
-                width: 90,
+                width: 110,
                 child: ElevatedButton(
                   onPressed: value.text.isEmpty
                       ? null
@@ -100,7 +98,7 @@ class _PKRequestWidgetState extends State<PKRequestWidget> {
     BuildContext context,
     String anotherHostUserID,
   ) async {
-    await widget.liveController.pkV2.sendRequest(
+    await ZegoUIKitPrebuiltLiveStreamingController().pk.sendRequest(
       targetHostIDs: [anotherHostUserID],
       isAutoAccept: isAutoAcceptedNotifier.value,
     ).then((ret) {

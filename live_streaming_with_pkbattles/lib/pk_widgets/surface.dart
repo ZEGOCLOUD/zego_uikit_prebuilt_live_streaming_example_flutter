@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
-import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/join_widget.dart';
-import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/quit_button.dart';
-import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/request_widget.dart';
-import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/requesting_id.dart';
-import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/requesting_list.dart';
-import 'package:live_streaming_with_pkbattles/pk_widgets/widgets/stop_button.dart';
+import 'widgets/quit_button.dart';
+import 'widgets/request_widget.dart';
+import 'widgets/requesting_id.dart';
+import 'widgets/requesting_list.dart';
+import 'widgets/stop_button.dart';
 
 class PKV2Surface extends StatefulWidget {
-  final ZegoUIKitPrebuiltLiveStreamingController liveController;
   final ValueNotifier<Map<String, List<String>>>
       requestingHostsMapRequestIDNotifier;
   final ValueNotifier<String> requestIDNotifier;
@@ -19,7 +17,6 @@ class PKV2Surface extends StatefulWidget {
 
   const PKV2Surface({
     Key? key,
-    required this.liveController,
     required this.requestIDNotifier,
     required this.liveStateNotifier,
     required this.requestingHostsMapRequestIDNotifier,
@@ -44,7 +41,6 @@ class _PKV2SurfaceState extends State<PKV2Surface> {
                   bottom: baseYPos + 3 * 30 + 3 * 5,
                   right: 1,
                   child: PKQuitButton(
-                    liveController: widget.liveController,
                     liveStateNotifier: widget.liveStateNotifier,
                     requestingHostsMapRequestIDNotifier:
                         widget.requestingHostsMapRequestIDNotifier,
@@ -54,7 +50,6 @@ class _PKV2SurfaceState extends State<PKV2Surface> {
                   bottom: baseYPos + 2 * 30 + 2 * 5,
                   right: 1,
                   child: PKStopButton(
-                    liveController: widget.liveController,
                     liveStateNotifier: widget.liveStateNotifier,
                     requestingHostsMapRequestIDNotifier:
                         widget.requestingHostsMapRequestIDNotifier,
@@ -64,7 +59,6 @@ class _PKV2SurfaceState extends State<PKV2Surface> {
                   bottom: baseYPos + 30 + 5,
                   right: 1,
                   child: PKRequestWidget(
-                    liveController: widget.liveController,
                     requestIDNotifier: widget.requestIDNotifier,
                     requestingHostsMapRequestIDNotifier:
                         widget.requestingHostsMapRequestIDNotifier,
@@ -90,7 +84,6 @@ class _PKV2SurfaceState extends State<PKV2Surface> {
                   left: 1,
                   bottom: baseYPos + 60,
                   child: PKRequestingList(
-                    liveController: widget.liveController,
                     requestingHostsMapRequestIDNotifier:
                         widget.requestingHostsMapRequestIDNotifier,
                   ),

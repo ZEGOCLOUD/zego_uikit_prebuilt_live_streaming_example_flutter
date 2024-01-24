@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 class PKRequestingList extends StatefulWidget {
-  final ZegoUIKitPrebuiltLiveStreamingController liveController;
   final ValueNotifier<Map<String, List<String>>>
       requestingHostsMapRequestIDNotifier;
 
   const PKRequestingList({
     Key? key,
-    required this.liveController,
     required this.requestingHostsMapRequestIDNotifier,
   }) : super(key: key);
 
@@ -59,9 +57,11 @@ class _PKRequestingListState extends State<PKRequestingList> {
                     final hostID = invitingHostIDs.elementAt(index);
 
                     return ValueListenableBuilder<
-                            ZegoLiveStreamingPKBattleStateV2>(
+                            ZegoLiveStreamingPKBattleState>(
                         valueListenable:
-                            widget.liveController.pkV2.stateNotifier,
+                            ZegoUIKitPrebuiltLiveStreamingController()
+                                .pk
+                                .stateNotifier,
                         builder: (context, pkState, _) {
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -71,12 +71,14 @@ class _PKRequestingListState extends State<PKRequestingList> {
                                   Colors.white, // foreground (text) color
                             ),
                             onPressed: pkState ==
-                                    ZegoLiveStreamingPKBattleStateV2.inPK
+                                    ZegoLiveStreamingPKBattleState.inPK
 
                                 /// couldn't cancel after in-pk(anyone accepted)
                                 ? null
                                 : () {
-                                    widget.liveController.pkV2.cancelRequest(
+                                    ZegoUIKitPrebuiltLiveStreamingController()
+                                        .pk
+                                        .cancelRequest(
                                       targetHostIDs: [hostID],
                                     ).then((ret) {
                                       if (ret.error == null) {

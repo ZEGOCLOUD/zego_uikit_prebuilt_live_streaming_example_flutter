@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 class PKQuitButton extends StatefulWidget {
-  final ZegoUIKitPrebuiltLiveStreamingController liveController;
   final ValueNotifier<Map<String, List<String>>>
       requestingHostsMapRequestIDNotifier;
   final ValueNotifier<ZegoLiveStreamingState> liveStateNotifier;
 
   const PKQuitButton({
     Key? key,
-    required this.liveController,
     required this.liveStateNotifier,
     required this.requestingHostsMapRequestIDNotifier,
   }) : super(key: key);
@@ -40,11 +38,11 @@ class _PKQuitButtonState extends State<PKQuitButton> {
   }
 
   void quitPKBattle(context) {
-    if (!widget.liveController.pkV2.isInPK) {
+    if (!ZegoUIKitPrebuiltLiveStreamingController().pk.isInPK) {
       return;
     }
 
-    widget.liveController.pkV2.quit().then((ret) {
+    ZegoUIKitPrebuiltLiveStreamingController().pk.quit().then((ret) {
       if (ret.error != null) {
         showDialog(
           context: context,

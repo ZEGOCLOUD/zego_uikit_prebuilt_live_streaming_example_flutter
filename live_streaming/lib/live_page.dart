@@ -23,8 +23,6 @@ class LivePage extends StatefulWidget {
 }
 
 class LivePageState extends State<LivePage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,7 +32,6 @@ class LivePageState extends State<LivePage> {
         userID: localUserID,
         userName: 'user_$localUserID',
         liveID: widget.liveID,
-        controller: liveController,
         config: (widget.isHost
             ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
             : ZegoUIKitPrebuiltLiveStreamingConfig.audience())

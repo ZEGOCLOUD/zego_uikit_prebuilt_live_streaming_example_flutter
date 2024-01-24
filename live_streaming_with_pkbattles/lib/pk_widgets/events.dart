@@ -11,14 +11,13 @@ class PKEvents {
   final ValueNotifier<Map<String, List<String>>>
       requestingHostsMapRequestIDNotifier;
 
-  ZegoUIKitPrebuiltLiveStreamingPKV2Events get event =>
-      ZegoUIKitPrebuiltLiveStreamingPKV2Events(
-        onIncomingPKBattleRequestReceived: (event, defaultAction) {
+  ZegoLiveStreamingPKEvents get event => ZegoLiveStreamingPKEvents(
+        onIncomingRequestReceived: (event, defaultAction) {
           debugPrint(
               'custom event, onIncomingPKBattleRequestReceived, event:$event');
           defaultAction.call();
         },
-        onIncomingPKBattleRequestCancelled: (event, defaultAction) {
+        onIncomingRequestCancelled: (event, defaultAction) {
           debugPrint(
               'custom event, onIncomingPKBattleRequestCancelled, event:$event');
           defaultAction.call();
@@ -27,7 +26,7 @@ class PKEvents {
 
           removeRequestingHostsMap(event.requestID);
         },
-        onIncomingPKBattleRequestTimeout: (event, defaultAction) {
+        onIncomingRequestTimeout: (event, defaultAction) {
           debugPrint(
               'custom event, onIncomingPKBattleRequestTimeout, event:$event');
           defaultAction.call();
@@ -36,7 +35,7 @@ class PKEvents {
 
           removeRequestingHostsMap(event.requestID);
         },
-        onOutgoingPKBattleRequestAccepted: (event, defaultAction) {
+        onOutgoingRequestAccepted: (event, defaultAction) {
           debugPrint(
               'custom event, onOutgoingPKBattleRequestAccepted, event:$event');
           defaultAction.call();
@@ -46,7 +45,7 @@ class PKEvents {
             event.fromHost.id,
           );
         },
-        onOutgoingPKBattleRequestRejected: (event, defaultAction) {
+        onOutgoingRequestRejected: (event, defaultAction) {
           debugPrint(
               'custom event, onOutgoingPKBattleRequestRejected, event:$event');
           defaultAction.call();
@@ -56,7 +55,7 @@ class PKEvents {
             event.fromHost.id,
           );
         },
-        onOutgoingPKBattleRequestTimeout: (event, defaultAction) {
+        onOutgoingRequestTimeout: (event, defaultAction) {
           debugPrint(
               'custom event, onOutgoingPKBattleRequestTimeout, event:$event');
 
@@ -67,7 +66,7 @@ class PKEvents {
 
           defaultAction.call();
         },
-        onPKBattleEnded: (event, defaultAction) {
+        onEnded: (event, defaultAction) {
           debugPrint('custom event, onPKBattleEnded, event:$event');
           defaultAction.call();
 

@@ -30,30 +30,33 @@ class LivePage extends StatefulWidget {
 }
 
 class LivePageState extends State<LivePage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
-
   @override
   Widget build(BuildContext context) {
     final hostConfig = ZegoUIKitPrebuiltLiveStreamingConfig.host(
       plugins: [ZegoUIKitSignalingPlugin()],
-    )..audioVideoViewConfig.foregroundBuilder =
-        hostAudioVideoViewForegroundBuilder;
+    )..audioVideoView.foregroundBuilder = hostAudioVideoViewForegroundBuilder;
 
     final audienceConfig = ZegoUIKitPrebuiltLiveStreamingConfig.audience(
       plugins: [ZegoUIKitSignalingPlugin()],
-    )
-      ..onCameraTurnOnByOthersConfirmation = (BuildContext context) {
-        return onTurnOnAudienceDeviceConfirmation(
-          context,
-          isCameraOrMicrophone: true,
-        );
-      }
-      ..onMicrophoneTurnOnByOthersConfirmation = (BuildContext context) {
-        return onTurnOnAudienceDeviceConfirmation(
-          context,
-          isCameraOrMicrophone: false,
-        );
-      };
+    );
+    final audienceEvents = ZegoUIKitPrebuiltLiveStreamingEvents(
+        onError: (ZegoUIKitError error) {
+          debugPrint('onError:$error');
+        },
+        audioVideo: ZegoLiveStreamingAudioVideoEvents(
+          onCameraTurnOnByOthersConfirmation: (BuildContext context) {
+            return onTurnOnAudienceDeviceConfirmation(
+              context,
+              isCameraOrMicrophone: true,
+            );
+          },
+          onMicrophoneTurnOnByOthersConfirmation: (BuildContext context) {
+            return onTurnOnAudienceDeviceConfirmation(
+              context,
+              isCameraOrMicrophone: false,
+            );
+          },
+        ));
 
     return SafeArea(
       child: ZegoUIKitPrebuiltLiveStreaming(
@@ -62,17 +65,18 @@ class LivePageState extends State<LivePage> {
         userID: localUserID,
         userName: 'user_$localUserID',
         liveID: widget.liveID,
-        controller: liveController,
-        events: ZegoUIKitPrebuiltLiveStreamingEvents(
-          onError: (ZegoUIKitError error) {
-            debugPrint('onError:$error');
-          },
-        ),
+        events: widget.isHost
+            ? ZegoUIKitPrebuiltLiveStreamingEvents(
+                onError: (ZegoUIKitError error) {
+                  debugPrint('onError:$error');
+                },
+              )
+            : audienceEvents,
         config: (widget.isHost ? hostConfig : audienceConfig)
-          ..audioVideoViewConfig.useVideoViewAspectFill = false
+          ..audioVideoView.useVideoViewAspectFill = false
 
           /// support minimizing
-          ..topMenuBarConfig.buttons = [
+          ..topMenuBar.buttons = [
             ZegoMenuBarButtonName.minimizingButton,
           ]
 
@@ -80,8 +84,8 @@ class LivePageState extends State<LivePage> {
           ..avatarBuilder = customAvatarBuilder
 
           /// message attributes example
-          ..inRoomMessageConfig.attributes = userLevelsAttributes
-          ..inRoomMessageConfig.avatarLeadingBuilder = userLevelBuilder,
+          ..inRoomMessage.attributes = userLevelsAttributes
+          ..inRoomMessage.avatarLeadingBuilder = userLevelBuilder,
       ),
     );
   }

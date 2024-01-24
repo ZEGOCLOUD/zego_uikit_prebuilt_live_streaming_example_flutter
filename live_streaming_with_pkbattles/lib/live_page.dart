@@ -27,9 +27,9 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
-  final liveStateNotifier =
-      ValueNotifier<ZegoLiveStreamingState>(ZegoLiveStreamingState.idle);
+  final liveStateNotifier = ValueNotifier<ZegoLiveStreamingState>(
+    ZegoLiveStreamingState.idle,
+  );
 
   final requestingHostsMapRequestIDNotifier =
       ValueNotifier<Map<String, List<String>>>({});
@@ -55,7 +55,6 @@ class _LivePageState extends State<LivePage> {
 
           /// on host can control pk
           ..foreground = PKV2Surface(
-            liveController: liveController,
             requestIDNotifier: requestIDNotifier,
             liveStateNotifier: liveStateNotifier,
             requestingHostsMapRequestIDNotifier:
@@ -64,15 +63,12 @@ class _LivePageState extends State<LivePage> {
         : ZegoUIKitPrebuiltLiveStreamingConfig.audience(
             plugins: [ZegoUIKitSignalingPlugin()],
           ))
-      ..onLiveStreamingStateUpdate = (state) {
-        liveStateNotifier.value = state;
-      }
       ..avatarBuilder = customAvatarBuilder
-      ..audioVideoViewConfig.foregroundBuilder = foregroundBuilder
-      ..pkBattleV2Config = pkConfig()
+      ..audioVideoView.foregroundBuilder = foregroundBuilder
+      ..pkBattle = pkConfig()
 
       /// support minimizing
-      ..topMenuBarConfig.buttons = [ZegoMenuBarButtonName.minimizingButton];
+      ..topMenuBar.buttons = [ZegoMenuBarButtonName.minimizingButton];
 
     return SafeArea(
       child: Scaffold(
@@ -85,9 +81,11 @@ class _LivePageState extends State<LivePage> {
               userName: 'user_${widget.localUserID}',
               liveID: widget.liveID,
               config: config,
-              controller: liveController,
               events: ZegoUIKitPrebuiltLiveStreamingEvents(
-                pkEvents: pkEvents?.event,
+                pk: pkEvents?.event,
+                onStateUpdated: (state) {
+                  liveStateNotifier.value = state;
+                },
               ),
             ),
           ],
@@ -109,10 +107,7 @@ class _LivePageState extends State<LivePage> {
         child: SizedBox(
           width: 40,
           height: 40,
-          child: PKMuteButton(
-            userID: user.id,
-            liveController: liveController,
-          ),
+          child: PKMuteButton(userID: user.id),
         ),
       ),
     ];
@@ -167,7 +162,7 @@ class _LivePageState extends State<LivePage> {
             // width: 30,
             height: 18,
             color: Colors.purple,
-            child: Text(user?.name ?? ''),
+            child: Text(user.name),
           ),
         ),
       ],

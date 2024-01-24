@@ -77,22 +77,42 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
               style: buttonStyle,
               child: const Text('Start a live'),
-              onPressed: () => jumpToLivePage(
-                context,
-                liveID: liveTextCtrl.text.trim(),
-                isHost: true,
-              ),
+              onPressed: () {
+                if (ZegoUIKitPrebuiltLiveStreamingController()
+                    .minimize
+                    .isMinimizing) {
+                  /// when the application is minimized (in a minimized state),
+                  /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
+                  return;
+                }
+
+                jumpToLivePage(
+                  context,
+                  liveID: liveTextCtrl.text.trim(),
+                  isHost: true,
+                );
+              },
             ),
             const SizedBox(height: 20),
             // click me to navigate to LivePage
             ElevatedButton(
               style: buttonStyle,
               child: const Text('Watch a live'),
-              onPressed: () => jumpToLivePage(
-                context,
-                liveID: liveTextCtrl.text.trim(),
-                isHost: false,
-              ),
+              onPressed: () {
+                if (ZegoUIKitPrebuiltLiveStreamingController()
+                    .minimize
+                    .isMinimizing) {
+                  /// when the application is minimized (in a minimized state),
+                  /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
+                  return;
+                }
+
+                jumpToLivePage(
+                  context,
+                  liveID: liveTextCtrl.text.trim(),
+                  isHost: false,
+                );
+              },
             ),
           ],
         ),
@@ -145,7 +165,8 @@ class LivePage extends StatelessWidget {
                           ZegoShowFullscreenModeToggleButtonRules.alwaysShow,
                       showNewScreenSharingViewInFullscreenMode:
                           false) //  Set the layout to gallery mode. and configure the [showNewScreenSharingViewInFullscreenMode] and [showScreenSharingFullscreenModeToggleButtonRules].
-                  ..bottomMenuBarConfig = ZegoBottomMenuBarConfig(hostButtons: [
+                  ..bottomMenuBar =
+                      ZegoLiveStreamingBottomMenuBarConfig(hostButtons: [
                     ZegoMenuBarButtonName.toggleScreenSharingButton,
                     ZegoMenuBarButtonName.toggleMicrophoneButton,
                     ZegoMenuBarButtonName.toggleCameraButton
@@ -157,7 +178,8 @@ class LivePage extends StatelessWidget {
                       ZegoShowFullscreenModeToggleButtonRules.alwaysShow,
                   showNewScreenSharingViewInFullscreenMode:
                       false) // Set the layout to gallery mode. and configure the [showNewScreenSharingViewInFullscreenMode] and [showScreenSharingFullscreenModeToggleButtonRules].
-              ..bottomMenuBarConfig = ZegoBottomMenuBarConfig(hostButtons: [
+              ..bottomMenuBar =
+                  ZegoLiveStreamingBottomMenuBarConfig(hostButtons: [
                 ZegoMenuBarButtonName.toggleScreenSharingButton,
                 ZegoMenuBarButtonName.coHostControlButton
               ]) // Add a screen sharing toggle button.
