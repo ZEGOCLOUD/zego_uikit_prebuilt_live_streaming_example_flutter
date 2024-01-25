@@ -4,18 +4,18 @@ import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_stre
 
 ZegoLiveStreamingPKBattleConfig pkConfig() {
   return ZegoLiveStreamingPKBattleConfig(
-    mixerLayout: PKGridLayout(),
-    pKBattleViewTopPadding: 100,
-    hostReconnectingBuilder: (
-      BuildContext context,
-      ZegoUIKitUser? host,
-      Map<String, dynamic> extraInfo,
-    ) {
-      return const CircularProgressIndicator(
-        backgroundColor: Colors.red,
-        color: Colors.purple,
-      );
-    },
+    // mixerLayout: PKGridLayout(),
+    // pKBattleViewTopPadding: 100,
+    // hostReconnectingBuilder: (
+    //   BuildContext context,
+    //   ZegoUIKitUser? host,
+    //   Map<String, dynamic> extraInfo,
+    // ) {
+    //   return const CircularProgressIndicator(
+    //     backgroundColor: Colors.red,
+    //     color: Colors.purple,
+    //   );
+    // },
     pkBattleViewForegroundBuilder: (
       BuildContext context,
       List<ZegoUIKitUser?> hosts,
@@ -73,7 +73,7 @@ ZegoLiveStreamingPKBattleConfig pkConfig() {
 /// ├───┼───┼───┤
 /// │😄 │😄 │   │
 /// └───┴───┴───┘
-class PKGridLayout extends ZegoPKMixerLayout {
+class PKGridLayout extends ZegoLiveStreamingPKMixerLayout {
   @override
   Size getResolution() => const Size(1080, 960);
 
