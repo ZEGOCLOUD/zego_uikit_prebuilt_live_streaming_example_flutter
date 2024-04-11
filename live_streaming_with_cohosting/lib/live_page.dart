@@ -77,7 +77,7 @@ class LivePageState extends State<LivePage> {
 
           /// support minimizing
           ..topMenuBar.buttons = [
-            ZegoMenuBarButtonName.minimizingButton,
+            ZegoLiveStreamingMenuBarButtonName.minimizingButton,
           ]
 
           /// custom avatar
@@ -191,7 +191,7 @@ class LivePageState extends State<LivePage> {
                 ),
               );
             },
-          )
+          ),
         ],
       ),
     );

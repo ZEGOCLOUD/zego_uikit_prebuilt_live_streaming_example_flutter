@@ -16,7 +16,7 @@ ZegoLiveStreamingPKBattleConfig pkConfig() {
     //     color: Colors.purple,
     //   );
     // },
-    pkBattleViewForegroundBuilder: (
+    foregroundBuilder: (
       BuildContext context,
       List<ZegoUIKitUser?> hosts,
       Map<String, dynamic> extraInfo,
@@ -28,7 +28,7 @@ ZegoLiveStreamingPKBattleConfig pkConfig() {
         ),
       );
     },
-    pkBattleViewTopBuilder: (
+    topBuilder: (
       BuildContext context,
       List<ZegoUIKitUser?> hosts,
       Map<String, dynamic> extraInfo,
@@ -40,7 +40,7 @@ ZegoLiveStreamingPKBattleConfig pkConfig() {
         ),
       );
     },
-    pkBattleViewBottomBuilder: (
+    bottomBuilder: (
       BuildContext context,
       List<ZegoUIKitUser?> hosts,
       Map<String, dynamic> extraInfo,

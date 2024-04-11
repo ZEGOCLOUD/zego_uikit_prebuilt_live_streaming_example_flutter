@@ -68,7 +68,9 @@ class _LivePageState extends State<LivePage> {
       ..pkBattle = pkConfig()
 
       /// support minimizing
-      ..topMenuBar.buttons = [ZegoMenuBarButtonName.minimizingButton];
+      ..topMenuBar.buttons = [
+        ZegoLiveStreamingMenuBarButtonName.minimizingButton
+      ];
 
     return SafeArea(
       child: Scaffold(

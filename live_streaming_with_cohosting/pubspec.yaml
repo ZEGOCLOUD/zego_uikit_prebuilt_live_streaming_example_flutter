@@ -1,7 +1,7 @@
 name: live_streaming_cohost
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.2.0+1
 
@@ -12,13 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  zego_uikit: ^2.18.7
-  zego_uikit_prebuilt_live_streaming: ^3.2.0
+  zego_uikit: ^2.21.5
+  zego_uikit_prebuilt_live_streaming: ^3.5.0
   zego_uikit_signaling_plugin: ^2.7.6
 
   cupertino_icons: ^1.0.2
   flutter_screenutil: ">=5.5.3+2 <5.6.1"
   cached_network_image: ^3.3.0
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +30,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/avatars/
