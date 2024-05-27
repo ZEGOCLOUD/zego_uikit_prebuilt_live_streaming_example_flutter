@@ -2,16 +2,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
+// Project imports:
+import 'package:live_streaming_cohost/common.dart';
 //
 import 'package:live_streaming_cohost/constants.dart';
-
+import 'package:lottie/lottie.dart';
 // Package imports:
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-
-// Project imports:
-import 'common.dart';
 
 class LivePage extends StatefulWidget {
   final String liveID;
@@ -73,7 +71,7 @@ class LivePageState extends State<LivePage> {
               )
             : audienceEvents,
         config: (widget.isHost ? hostConfig : audienceConfig)
-          ..audioVideoView.useVideoViewAspectFill = false
+          ..audioVideoView.useVideoViewAspectFill = true
 
           /// support minimizing
           ..topMenuBar.buttons = [

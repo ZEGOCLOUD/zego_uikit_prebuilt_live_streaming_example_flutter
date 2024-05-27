@@ -37,10 +37,8 @@ class LiveAudioRoomPageState extends State<LiveAudioRoomPage> {
     userID: widget.userID,
     userName: widget.userName,
     roomID: widget.roomID,
-    roomController: liveAudioRoomZegoController,
     isHost: widget.isHost,
   );
-  final liveAudioRoomZegoController = ZegoLiveAudioRoomController();
 
   @override
   void initState() {
@@ -68,14 +66,14 @@ class LiveAudioRoomPageState extends State<LiveAudioRoomPage> {
               userID: widget.userID,
               userName: widget.userName,
               roomID: widget.roomID,
-              controller: liveAudioRoomZegoController,
               config: (widget.isHost ? hostConfig : audienceConfig)
-                ..userAvatarUrl = 'https://robohash.org/$localUserID.png?set=set4'
-                ..bottomMenuBarConfig.hostExtendButtons = [_gameCtrl.gameButton()]
-                ..closeSeatsWhenJoining = false
-                ..bottomMenuBarConfig.hostButtons = [
-                  ZegoMenuBarButtonName.toggleMicrophoneButton,
-                  ZegoMenuBarButtonName.showMemberListButton,
+                ..userAvatarUrl =
+                    'https://robohash.org/$localUserID.png?set=set4'
+                ..seat.closeWhenJoining = false
+                ..bottomMenuBar.hostExtendButtons = [_gameCtrl.gameButton()]
+                ..bottomMenuBar.hostButtons = [
+                  ZegoLiveAudioRoomMenuBarButtonName.toggleMicrophoneButton,
+                  ZegoLiveAudioRoomMenuBarButtonName.showMemberListButton,
                 ]
                 ..emptyAreaBuilder = ((_) => _gameCtrl.gameView())
                 ..background = background(),

@@ -76,7 +76,9 @@ class HomePage extends StatelessWidget {
             style: ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
             child: const Text('Start a Live'),
             onPressed: () {
-              if (ZegoUIKitPrebuiltLiveStreamingMiniOverlayMachine().isMinimizing) {
+              if (ZegoUIKitPrebuiltLiveStreamingController()
+                  .minimize
+                  .isMinimizing) {
                 /// when the application is minimized (in a minimized state),
                 /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
                 return;
@@ -95,7 +97,9 @@ class HomePage extends StatelessWidget {
             style: ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
             child: const Text('Watch a live'),
             onPressed: () {
-              if (ZegoUIKitPrebuiltLiveStreamingMiniOverlayMachine().isMinimizing) {
+              if (ZegoUIKitPrebuiltLiveStreamingController()
+                  .minimize
+                  .isMinimizing) {
                 /// when the application is minimized (in a minimized state),
                 /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
                 return;
@@ -133,7 +137,9 @@ class HomePage extends StatelessWidget {
             style: ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
             child: const Text('Start a live'),
             onPressed: () {
-              if (ZegoUIKitPrebuiltLiveAudioRoomMiniOverlayMachine().isMinimizing) {
+              if (ZegoUIKitPrebuiltLiveAudioRoomController()
+                  .minimize
+                  .isMinimizing) {
                 /// when the application is minimized (in a minimized state),
                 /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
                 return;
@@ -152,7 +158,9 @@ class HomePage extends StatelessWidget {
             style: ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
             child: const Text('Watch a live'),
             onPressed: () {
-              if (ZegoUIKitPrebuiltLiveAudioRoomMiniOverlayMachine().isMinimizing) {
+              if (ZegoUIKitPrebuiltLiveAudioRoomController()
+                  .minimize
+                  .isMinimizing) {
                 /// when the application is minimized (in a minimized state),
                 /// disable button clicks to prevent multiple PrebuiltLiveStreaming components from being created.
                 return;

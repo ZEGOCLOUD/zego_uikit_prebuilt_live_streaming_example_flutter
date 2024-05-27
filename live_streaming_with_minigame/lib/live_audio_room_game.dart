@@ -6,13 +6,12 @@ class InRoomGameController {
   final String userID;
   final String userName;
   final String roomID;
-  final ZegoLiveAudioRoomController roomController;
   final bool isHost;
+
   InRoomGameController({
     required this.userID,
     required this.userName,
     required this.roomID,
-    required this.roomController,
     required this.isHost,
   });
   StreamSubscription<dynamic>? _subscription;
@@ -106,8 +105,12 @@ class InRoomGameController {
         if (gameState != ZegoGameState.playing) {
           return ElevatedButton(
             onPressed: () async {
-              final userListNotifier = roomController.getSeatsUserMapNotifier()!;
-              showStartGameDialog(context, currentGameID!, userListNotifier).then((playWithUserID) {
+              final userListNotifier =
+                  ZegoUIKitPrebuiltLiveAudioRoomController()
+                      .seat
+                      .userMapNotifier!;
+              showStartGameDialog(context, currentGameID!, userListNotifier)
+                  .then((playWithUserID) {
                 if (playWithUserID != null) {
                   startGame(playWithUserID);
                 }

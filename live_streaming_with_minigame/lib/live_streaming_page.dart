@@ -27,7 +27,6 @@ class LiveStreamingPage extends StatefulWidget {
 }
 
 class LiveStreamingPageState extends State<LiveStreamingPage> {
-  final liveController = ZegoUIKitPrebuiltLiveStreamingController();
   final liveStreamingStateNotifier = ValueNotifier(ZegoLiveStreamingState.idle);
   bool playing = false;
 
@@ -52,17 +51,18 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
         child: Stack(
           children: [
             ZegoUIKitPrebuiltLiveStreaming(
-              appID: yourAppID /*input your AppID*/,
-              appSign: yourAppSign /*input your AppSign*/,
-              userID: widget.userID,
-              userName: widget.userName,
-              liveID: widget.liveID,
-              controller: liveController,
-              config: (widget.isHost ? hostConfig : audienceConfig)
-                ..avatarBuilder = customAvatarBuilder
-                ..audioVideoViewConfig.useVideoViewAspectFill = false
-                ..onLiveStreamingStateUpdate = (state) => liveStreamingStateNotifier.value = state,
-            ),
+                appID: yourAppID /*input your AppID*/,
+                appSign: yourAppSign /*input your AppSign*/,
+                userID: widget.userID,
+                userName: widget.userName,
+                liveID: widget.liveID,
+                events: ZegoUIKitPrebuiltLiveStreamingEvents(
+                  onStateUpdated: (state) =>
+                      liveStreamingStateNotifier.value = state,
+                ),
+                config: (widget.isHost ? hostConfig : audienceConfig)
+                  ..avatarBuilder = customAvatarBuilder
+                  ..audioVideoView.useVideoViewAspectFill = false),
             Offstage(
               offstage: !playing,
               child: InAppWebView(
