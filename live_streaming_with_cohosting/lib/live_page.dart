@@ -203,6 +203,10 @@ class LivePageState extends State<LivePage> {
       fontSize: 10,
       color: Colors.white70,
     );
+    const buttonTextStyle = TextStyle(
+      fontSize: 10,
+      color: Colors.black,
+    );
     return await showDialog(
       context: context,
       barrierDismissible: false,
@@ -217,11 +221,11 @@ class LivePageState extends State<LivePage> {
               style: textStyle),
           actions: [
             ElevatedButton(
-              child: const Text('Cancel', style: textStyle),
+              child: const Text('Cancel', style: buttonTextStyle),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             ElevatedButton(
-              child: const Text('OK', style: textStyle),
+              child: const Text('OK', style: buttonTextStyle),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

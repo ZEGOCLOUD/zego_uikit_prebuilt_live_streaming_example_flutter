@@ -4,6 +4,7 @@ import 'package:live_streaming/home_page.dart';
 
 // Package imports:
 import 'package:zego_uikit/zego_uikit.dart';
+import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', home: HomePage());
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: ZegoUIKitPrebuiltLiveStreamingMiniPopScope(
+        child: HomePage(),
+      ),
+    );
   }
 }

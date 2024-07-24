@@ -45,6 +45,7 @@ post_install do |installer|
         'PERMISSION_CAMERA=1',
         'PERMISSION_MICROPHONE=1',
       ]
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
     # End of the permission_handler configuration
 
