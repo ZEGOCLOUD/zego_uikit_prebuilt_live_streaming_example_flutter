@@ -28,6 +28,31 @@ class SampleHandler: RPBroadcastSampleHandler, ZegoReplayKitExtHandler {
         ZegoReplayKitExt.sharedInstance().finished()
     }
     
+    
+    func broadcastFinished(_ broadcast: ZegoReplayKitExt, reason: ZegoReplayKitExtReason) {
+        switch reason {
+        case .hostStop:
+            let userInfo = [NSLocalizedDescriptionKey: "Host app stopped screen capture"]
+            let error = NSError(domain: NSCocoaErrorDomain, code: 0, userInfo: userInfo)
+            finishBroadcastWithError(error)
+
+        case .connectFail:
+            let userInfo = [NSLocalizedDescriptionKey: "Connect host app failed; need to startScreenCapture in host app"]
+            let error = NSError(domain: NSCocoaErrorDomain, code: 0, userInfo: userInfo)
+            finishBroadcastWithError(error)
+
+        case .disconnect:
+            let userInfo = [NSLocalizedDescriptionKey: "Disconnected from host app"]
+            let error = NSError(domain: NSCocoaErrorDomain, code: 0, userInfo: userInfo)
+            finishBroadcastWithError(error)
+
+        default:
+            let userInfo = [NSLocalizedDescriptionKey: "Unknown reason for broadcast finish"]
+            let error = NSError(domain: NSCocoaErrorDomain, code: 0, userInfo: userInfo)
+            finishBroadcastWithError(error)
+        }
+    }
+    
     override func processSampleBuffer(_ sampleBuffer: CMSampleBuffer, with sampleBufferType: RPSampleBufferType) {
         
         ZegoReplayKitExt.sharedInstance().send(sampleBuffer, with: sampleBufferType)

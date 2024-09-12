@@ -16,9 +16,9 @@ dependencies:
   flutter_screenutil: ">=5.5.3+2 <5.6.1"
   cached_network_image: ^3.3.0
 
-  zego_uikit: ^2.27.2
-  zego_uikit_signaling_plugin: ^2.8.2
-  zego_uikit_prebuilt_live_streaming: ^3.12.3
+  zego_uikit: ^2.27.6
+  zego_uikit_signaling_plugin: ^2.8.3
+  zego_uikit_prebuilt_live_streaming: ^3.12.6
 
 dev_dependencies:
   flutter_test:
