@@ -9,12 +9,19 @@ import 'package:live_streaming_cohost/constants.dart';
 import 'package:live_streaming_cohost/live_page.dart';
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   /// Users who use the same liveID can join the same live streaming.
   final liveTextCtrl =
       TextEditingController(text: Random().nextInt(10000).toString());
-
-  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

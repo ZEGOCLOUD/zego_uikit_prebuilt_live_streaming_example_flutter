@@ -18,6 +18,13 @@ allprojects {
     }
 }
 
+ext {
+    compileSdkVersion = 34
+    targetSdkVersion = 34
+    appCompatVersion = "1.7.0"
+}
+subprojects { afterEvaluate { android { compileSdkVersion 34 } } }
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
@@ -26,6 +33,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
