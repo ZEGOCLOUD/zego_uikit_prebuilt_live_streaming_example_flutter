@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:live_streaming_cohost/common.dart';
 //
 import 'package:live_streaming_cohost/constants.dart';
-import 'package:lottie/lottie.dart';
 // Package imports:
 import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
