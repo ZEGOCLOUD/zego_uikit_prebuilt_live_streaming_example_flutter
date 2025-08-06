@@ -26,17 +26,21 @@ Future<ZegoGameInfo?> showGameListView(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('GameList', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                const Text('GameList',
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 5),
                 ValueListenableBuilder(
                   valueListenable: ZegoMiniGame().getAllGameList(),
-                  builder: (BuildContext context, List<ZegoGameInfo> gameList, Widget? child) {
+                  builder: (BuildContext context, List<ZegoGameInfo> gameList,
+                      Widget? child) {
                     return Container(
                       padding: const EdgeInsets.all(10),
                       width: double.infinity,
                       height: 200,
                       child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
@@ -56,8 +60,11 @@ Future<ZegoGameInfo?> showGameListView(BuildContext context) {
                                   CachedNetworkImage(
                                     imageUrl: gameList[index].thumbnail!,
                                     fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, _) => const CupertinoActivityIndicator(),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    progressIndicatorBuilder:
+                                        (context, url, _) =>
+                                            const CupertinoActivityIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
                                   ),
                                   Text(
                                     gameList[index].mgName!,

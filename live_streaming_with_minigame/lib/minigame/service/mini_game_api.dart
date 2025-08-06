@@ -30,7 +30,12 @@ extension ZegoMiniGameAPI on ZegoMiniGame {
     GameLanguage language = GameLanguage.english,
   }) async {
     return _initGameSDK(
-        userID: userID, userName: userName, avatarUrl: avatarUrl, appID: appID, token: token, language: language);
+        userID: userID,
+        userName: userName,
+        avatarUrl: avatarUrl,
+        appID: appID,
+        token: token,
+        language: language);
   }
 
   Future<CallAsyncJavaScriptResult> uninitGameSDK() async {
@@ -54,7 +59,8 @@ extension ZegoMiniGameAPI on ZegoMiniGame {
     required ZegoGameMode gameMode,
     ZegoLoadGameConfig? loadGameConfig,
   }) async {
-    return _loadGame(gameID: gameID, gameMode: gameMode, loadGameConfig: loadGameConfig);
+    return _loadGame(
+        gameID: gameID, gameMode: gameMode, loadGameConfig: loadGameConfig);
   }
 
   Future<CallAsyncJavaScriptResult> unloadGame() async {
@@ -66,7 +72,8 @@ extension ZegoMiniGameAPI on ZegoMiniGame {
     required ZegoStartGameConfig gameConfig,
     List<ZegoGameRobot> robotList = const [],
   }) async {
-    return _startGame(playerList: playerList, gameConfig: gameConfig, robotList: robotList);
+    return _startGame(
+        playerList: playerList, gameConfig: gameConfig, robotList: robotList);
   }
 }
 
@@ -81,6 +88,7 @@ class ZegoMiniGame {
   Completer<InAppWebViewController> initWebViewCompleter = Completer();
   Future<InAppWebViewController> get webViewController async => _ensureInited();
   final ValueNotifier<bool> loadedStateNotifier = ValueNotifier<bool>(false);
-  final ValueNotifier<ZegoGameState> gameStateNotifier = ValueNotifier<ZegoGameState>(ZegoGameState.idel);
+  final ValueNotifier<ZegoGameState> gameStateNotifier =
+      ValueNotifier<ZegoGameState>(ZegoGameState.idel);
   String currentUserID = '';
 }

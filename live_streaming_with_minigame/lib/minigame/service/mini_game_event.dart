@@ -1,7 +1,8 @@
 part of 'mini_game_api.dart';
 
 extension ZegoMiniGameEvent on ZegoMiniGame {
-  Future<void> _addJavaScriptHandler(InAppWebViewController webViewController) async {
+  Future<void> _addJavaScriptHandler(
+      InAppWebViewController webViewController) async {
     webViewController
       ..addJavaScriptHandler(
           handlerName: 'initHandler',
@@ -13,7 +14,9 @@ extension ZegoMiniGameEvent on ZegoMiniGame {
           handlerName: 'getGameListHandler',
           callback: (args) async {
             debugPrint('$logTag$eventTag, getGameListHandler: $args');
-            gameListNotifier.value = ((args[0] as Map)['list'] as List).map((e) => ZegoGameInfo.fromJson(e)).toList();
+            gameListNotifier.value = ((args[0] as Map)['list'] as List)
+                .map((e) => ZegoGameInfo.fromJson(e))
+                .toList();
             for (final game in gameListNotifier.value) {
               _getGameDetails(gameID: game.miniGameId!);
             }
@@ -23,7 +26,9 @@ extension ZegoMiniGameEvent on ZegoMiniGame {
           callback: (args) {
             debugPrint('$logTag$eventTag, getGameInfoHandler: $args');
             final detail = ZegoGameDetail.fromJson(args[0]);
-            gameListNotifier.value.firstWhere((game) => game.miniGameId == detail.miniGameId).detail = detail;
+            gameListNotifier.value
+                .firstWhere((game) => game.miniGameId == detail.miniGameId)
+                .detail = detail;
           })
       ..addJavaScriptHandler(
           handlerName: 'gameOverDetailUpdate',
@@ -66,7 +71,8 @@ extension ZegoMiniGameEvent on ZegoMiniGame {
       ..addJavaScriptHandler(
           handlerName: 'tokenWillExpire',
           callback: (args) async {
-            final token = await YourGameServer().getToken(appID: yourAppID, userID: currentUserID);
+            final token = await YourGameServer()
+                .getToken(appID: yourAppID, userID: currentUserID);
             updateToken(token);
             debugPrint('$logTag$eventTag, tokenWillExpire: $args');
           })
@@ -103,9 +109,11 @@ extension ZegoMiniGameEvent on ZegoMiniGame {
       ..addJavaScriptHandler(
           handlerName: 'gameStateUpdate',
           callback: (args) {
-            gameStateNotifier.value = ZegoGameState.values.firstWhere((e) => e.value == (args[0]['state'] as int));
+            gameStateNotifier.value = ZegoGameState.values
+                .firstWhere((e) => e.value == (args[0]['state'] as int));
             final reasonCode = args[0]['reasonCode'];
-            debugPrint('$logTag$eventTag, gameStateUpdate: ${gameStateNotifier.value.name}, reasonCode: $reasonCode');
+            debugPrint(
+                '$logTag$eventTag, gameStateUpdate: ${gameStateNotifier.value.name}, reasonCode: $reasonCode');
           })
       ..addJavaScriptHandler(
           handlerName: 'gameSoundPlay',
@@ -124,7 +132,8 @@ extension ZegoMiniGameEvent on ZegoMiniGame {
           });
   }
 
-  Future<void> _removeJavaScriptHandler(InAppWebViewController webViewController) async {
+  Future<void> _removeJavaScriptHandler(
+      InAppWebViewController webViewController) async {
     webViewController
       ..removeJavaScriptHandler(handlerName: 'initHandler')
       ..removeJavaScriptHandler(handlerName: 'getGameListHandler')

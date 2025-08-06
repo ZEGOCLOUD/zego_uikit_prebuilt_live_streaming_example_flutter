@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath 'com.android.tools.build:gradle:8.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -19,11 +19,11 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 34
+    compileSdkVersion = 35
     targetSdkVersion = 34
     appCompatVersion = "1.7.0"
 }
-subprojects { afterEvaluate { android { compileSdkVersion 34 } } }
+subprojects { afterEvaluate { android { compileSdkVersion 35 } } }
 
 rootProject.buildDir = '../build'
 subprojects {

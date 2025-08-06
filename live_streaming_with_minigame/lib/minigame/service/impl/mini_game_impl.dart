@@ -65,7 +65,11 @@ extension ZegoMiniGameInner on ZegoMiniGame {
   }
 
   Future<void> _getGameDetails({required String gameID}) async {
-    if (gameListNotifier.value.where((e) => e.miniGameId == gameID).first.detail == null) {
+    if (gameListNotifier.value
+            .where((e) => e.miniGameId == gameID)
+            .first
+            .detail ==
+        null) {
       final jsCode = "await getGameInfo('$gameID');";
       final result = await _miniGameChannel(jsCode);
       debugPrint('$logTag$apiTag, getGameInfo, result: $result');
@@ -90,7 +94,8 @@ extension ZegoMiniGameInner on ZegoMiniGame {
     ZegoLoadGameConfig? loadGameConfig,
   }) async {
     await _setGameContainer();
-    final loadGameParam = LoadGameParam(gameID: gameID, gameMode: gameMode, loadGameConfig: loadGameConfig);
+    final loadGameParam = LoadGameParam(
+        gameID: gameID, gameMode: gameMode, loadGameConfig: loadGameConfig);
     debugPrint('$logTag$apiTag, loadGame, loadGameParam:$loadGameParam');
     final jsonParams = loadGameParam.toJson();
     final jsCode = 'await loadGame(JSON.stringify($jsonParams));';
@@ -113,7 +118,8 @@ extension ZegoMiniGameInner on ZegoMiniGame {
     List<ZegoGameRobot> robotList = const [],
   }) async {
     await _setGameContainer();
-    final startGameParam = StartGameParam(gameConfig: gameConfig, playerList: playerList, robotList: robotList);
+    final startGameParam = StartGameParam(
+        gameConfig: gameConfig, playerList: playerList, robotList: robotList);
     debugPrint('$logTag$apiTag, startGame, startGameParam:$startGameParam');
     final jsonParams = startGameParam.toJson();
     final jsCode = 'await startGame(JSON.stringify($jsonParams));';
@@ -125,16 +131,21 @@ extension ZegoMiniGameInner on ZegoMiniGame {
   Future<CallAsyncJavaScriptResult> _miniGameChannel(String jsCode) async {
     if (jsCode.contains('await')) {
       debugPrint('$logTag[channel] callAsyncJS.jsCode: $jsCode');
-      return (await webViewController).callAsyncJavaScript(functionBody: jsCode).then((result) {
+      return (await webViewController)
+          .callAsyncJavaScript(functionBody: jsCode)
+          .then((result) {
         debugPrint('$logTag[channel] callAsyncJS.then: $result');
-        return result ?? CallAsyncJavaScriptResult(error: 'result is null', value: null);
+        return result ??
+            CallAsyncJavaScriptResult(error: 'result is null', value: null);
       }).catchError((error) {
         debugPrint('$logTag[channel] callAsyncJS.catchError: $error');
         return CallAsyncJavaScriptResult(error: error.toString(), value: null);
       });
     } else {
       debugPrint('$logTag[channel] evaluateJS.jsCode: $jsCode');
-      return (await webViewController).evaluateJavascript(source: jsCode).then((result) {
+      return (await webViewController)
+          .evaluateJavascript(source: jsCode)
+          .then((result) {
         debugPrint('$logTag[channel] evaluateJS.then: $result');
         return CallAsyncJavaScriptResult(error: null, value: result);
       }).catchError((error) {

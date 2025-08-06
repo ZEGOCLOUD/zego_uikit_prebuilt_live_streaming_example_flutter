@@ -24,7 +24,8 @@ Widget customAvatarBuilder(
         ),
       ),
     ),
-    progressIndicatorBuilder: (context, url, _) => const CupertinoActivityIndicator(),
+    progressIndicatorBuilder: (context, url, _) =>
+        const CupertinoActivityIndicator(),
     errorWidget: (context, url, error) {
       ZegoLoggerService.logInfo(
         '$user avatar url is invalid',
@@ -38,5 +39,6 @@ Widget customAvatarBuilder(
 
 void showSnackBar(String text) {
   debugPrint('show snack bar: $text');
-  ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(SnackBar(content: Text(text)));
+  ScaffoldMessenger.of(navigatorKey.currentContext!)
+      .showSnackBar(SnackBar(content: Text(text)));
 }

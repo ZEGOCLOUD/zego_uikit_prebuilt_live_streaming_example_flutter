@@ -22,7 +22,8 @@ class StartGameParam {
   String toJson() => json.encode(toMap());
 
   @override
-  String toString() => 'StartGameParam: robotList: $robotList, playerList: $playerList, gameConfig: $gameConfig';
+  String toString() =>
+      'StartGameParam: robotList: $robotList, playerList: $playerList, gameConfig: $gameConfig';
 }
 
 class LoadGameParam {
@@ -47,5 +48,6 @@ class LoadGameParam {
   String toJson() => json.encode(toMap());
 
   @override
-  String toString() => 'LoadGameParam: gameID: $gameID, gameMode: $gameMode, loadGameConfig: $loadGameConfig';
+  String toString() =>
+      'LoadGameParam: gameID: $gameID, gameMode: $gameMode, loadGameConfig: $loadGameConfig';
 }

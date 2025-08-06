@@ -14,8 +14,10 @@ import 'live_streaming_page.dart';
 
 class HomePage extends StatelessWidget {
   /// Users who use the same liveID can join the same live streaming.
-  final liveStreamingTextCtrl = TextEditingController(text: Random().nextInt(1000000).toString());
-  final liveAudioRoomTextCtrl = TextEditingController(text: Random().nextInt(1000000).toString());
+  final liveStreamingTextCtrl =
+      TextEditingController(text: Random().nextInt(1000000).toString());
+  final liveAudioRoomTextCtrl =
+      TextEditingController(text: Random().nextInt(1000000).toString());
 
   HomePage({Key? key}) : super(key: key);
 
@@ -26,17 +28,23 @@ class HomePage extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(children: [const SizedBox(width: 20), Text('User ID:$localUserID')]),
+            Row(children: [
+              const SizedBox(width: 20),
+              Text('User ID:$localUserID')
+            ]),
             const Divider(height: 40),
             IntrinsicHeight(
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.max, children: [
-                const SizedBox(width: 20),
-                liveStreamingEntry(context),
-                const VerticalDivider(width: 30),
-                liveAudioRoomEntry(context),
-                const SizedBox(width: 20),
-                // live streaming
-              ]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const SizedBox(width: 20),
+                    liveStreamingEntry(context),
+                    const VerticalDivider(width: 30),
+                    liveAudioRoomEntry(context),
+                    const SizedBox(width: 20),
+                    // live streaming
+                  ]),
             ),
             const Divider(height: 40),
             // click me to navigate to GamePage
@@ -61,7 +69,8 @@ class HomePage extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          const Text('LiveStreaming', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+          const Text('LiveStreaming',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
           const SizedBox(height: 20),
           TextFormField(
             controller: liveStreamingTextCtrl,
@@ -122,7 +131,8 @@ class HomePage extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          const Text('LiveAudioRoom', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+          const Text('LiveAudioRoom',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
           const SizedBox(height: 20),
           TextFormField(
             controller: liveAudioRoomTextCtrl,
@@ -179,7 +189,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void jumpToLiveStreamingPage(BuildContext context, {required String liveID, required bool isHost}) {
+  void jumpToLiveStreamingPage(BuildContext context,
+      {required String liveID, required bool isHost}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -193,7 +204,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void jumpToLiveAudioRoomPage(BuildContext context, {required String roomID, required bool isHost}) {
+  void jumpToLiveAudioRoomPage(BuildContext context,
+      {required String roomID, required bool isHost}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -207,7 +219,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void jumpToGamePage(BuildContext context, {required String roomID, required bool isHost}) {
+  void jumpToGamePage(BuildContext context,
+      {required String roomID, required bool isHost}) {
     Navigator.push(
       context,
       MaterialPageRoute(

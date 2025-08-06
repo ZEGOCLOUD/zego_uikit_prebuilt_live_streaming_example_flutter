@@ -82,12 +82,14 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
                     token: token,
                     userID: widget.userID,
                     userName: widget.userName,
-                    avatarUrl: Uri.encodeComponent('https://robohash.org/${widget.userID}.png?set=set4'),
+                    avatarUrl: Uri.encodeComponent(
+                        'https://robohash.org/${widget.userID}.png?set=set4'),
                     language: GameLanguage.english,
                   );
                 },
                 onConsoleMessage: (controller, ConsoleMessage msg) async {
-                  debugPrint('[InAppWebView][${msg.messageLevel}]${msg.message}');
+                  debugPrint(
+                      '[InAppWebView][${msg.messageLevel}]${msg.message}');
                 },
               ),
             ),
@@ -122,8 +124,13 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
                     try {
                       final loadGameResult = await ZegoMiniGame().loadGame(
                         gameID: gameID,
-                        gameMode: ZegoGameMode.values.where((element) => element.value == gameMode[0]).first,
-                        loadGameConfig: ZegoLoadGameConfig(minGameCoin: 0, roomID: widget.liveID, useRobot: true),
+                        gameMode: ZegoGameMode.values
+                            .where((element) => element.value == gameMode[0])
+                            .first,
+                        loadGameConfig: ZegoLoadGameConfig(
+                            minGameCoin: 0,
+                            roomID: widget.liveID,
+                            useRobot: true),
                       );
                       debugPrint('[APP]loadGame: $loadGameResult');
                       setState(() => playing = true);
@@ -131,24 +138,29 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
                       showSnackBar('getUserCurrency:$e');
                     }
                     try {
-                      final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
+                      final exchangeUserCurrencyResult =
+                          await YourGameServer().exchangeUserCurrency(
                         appID: yourAppID,
                         gameID: gameID,
                         userID: widget.userID,
                         exchangeValue: 10000,
-                        outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
+                        outOrderId:
+                            DateTime.now().millisecondsSinceEpoch.toString(),
                       );
-                      debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
+                      debugPrint(
+                          '[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
                     } catch (e) {
                       showSnackBar('exchangeUserCurrency:$e');
                     }
                     try {
-                      final getUserCurrencyResult = await YourGameServer().getUserCurrency(
+                      final getUserCurrencyResult =
+                          await YourGameServer().getUserCurrency(
                         appID: yourAppID,
                         userID: widget.userID,
                         gameID: gameID,
                       );
-                      debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
+                      debugPrint(
+                          '[APP]getUserCurrencyResult: $getUserCurrencyResult');
                     } catch (e) {
                       showSnackBar('getUserCurrency:$e');
                     }
@@ -160,7 +172,9 @@ class LiveStreamingPageState extends State<LiveStreamingPage> {
               }
             },
             label: playing ? const Text('Quit Game') : const Text('Game List'),
-            icon: playing ? const Icon(Icons.arrow_back) : const Icon(Icons.games),
+            icon: playing
+                ? const Icon(Icons.arrow_back)
+                : const Icon(Icons.games),
           ),
         );
       },

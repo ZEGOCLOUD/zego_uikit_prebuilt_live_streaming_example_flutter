@@ -15,7 +15,8 @@ class ZegoGameInfo {
     miniGameId = json['miniGameId'];
     mgName = json['mgName'];
     gameOrientation = json['gameOrientation'];
-    gameMode = json['gameMode'] == null ? null : List<int>.from(json['gameMode']);
+    gameMode =
+        json['gameMode'] == null ? null : List<int>.from(json['gameMode']);
   }
 
   Map<String, dynamic> toJson() {

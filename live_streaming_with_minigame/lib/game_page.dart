@@ -17,7 +17,11 @@ import 'minigame/ui/show_game_list_view.dart';
 import 'minigame/your_game_server.dart';
 
 class ZegoMiniGamePage extends StatefulWidget {
-  const ZegoMiniGamePage({super.key, required this.userID, required this.userName, required this.roomID});
+  const ZegoMiniGamePage(
+      {super.key,
+      required this.userID,
+      required this.userName,
+      required this.roomID});
 
   final String roomID;
   final String userID;
@@ -60,7 +64,8 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                       token: token,
                       userID: widget.userID,
                       userName: widget.userName,
-                      avatarUrl: Uri.encodeComponent('https://robohash.org/${widget.userID}.png?set=set4'),
+                      avatarUrl: Uri.encodeComponent(
+                          'https://robohash.org/${widget.userID}.png?set=set4'),
                       language: GameLanguage.english,
                     );
                   } catch (e) {
@@ -69,7 +74,8 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                   }
                 },
                 onConsoleMessage: (controller, ConsoleMessage msg) async {
-                  debugPrint('[InAppWebView][${msg.messageLevel}]${msg.message}');
+                  debugPrint(
+                      '[InAppWebView][${msg.messageLevel}]${msg.message}');
                 },
               ),
               Visibility(
@@ -81,45 +87,57 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                   child: FloatingActionButton.extended(
                     onPressed: () async {
                       if (!playing) {
-                        showGameListView(context).then((ZegoGameInfo? gameInfo) async {
+                        showGameListView(context)
+                            .then((ZegoGameInfo? gameInfo) async {
                           if (gameInfo != null) {
                             final gameID = gameInfo.miniGameId!;
                             final gameMode = gameInfo.gameMode!;
                             try {
-                              final loadGameResult = await ZegoMiniGame().loadGame(
+                              final loadGameResult =
+                                  await ZegoMiniGame().loadGame(
                                 gameID: gameID,
-                                gameMode: ZegoGameMode.values.where((element) => element.value == gameMode[0]).first,
+                                gameMode: ZegoGameMode.values
+                                    .where((element) =>
+                                        element.value == gameMode[0])
+                                    .first,
                                 loadGameConfig: ZegoLoadGameConfig(
                                   minGameCoin: 0,
                                   roomID: widget.roomID,
                                   useRobot: true,
                                 ),
                               );
-                              debugPrint('[APP]loadGameResult: $loadGameResult');
+                              debugPrint(
+                                  '[APP]loadGameResult: $loadGameResult');
                               setState(() => playing = true);
                             } catch (e) {
                               showSnackBar('loadGameResult:$e');
                             }
                             try {
                               debugPrint('[APP]enter game: $gameID');
-                              final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
+                              final exchangeUserCurrencyResult =
+                                  await YourGameServer().exchangeUserCurrency(
                                 appID: yourAppID,
                                 gameID: gameID,
                                 userID: widget.userID,
                                 exchangeValue: 10000,
-                                outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
+                                outOrderId: DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString(),
                               );
-                              debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
+                              debugPrint(
+                                  '[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
                             } catch (e) {
                               showSnackBar('exchangeUserCurrency:$e');
                             }
                             try {
-                              final getUserCurrencyResult = await YourGameServer().getUserCurrency(
+                              final getUserCurrencyResult =
+                                  await YourGameServer().getUserCurrency(
                                 appID: yourAppID,
                                 userID: widget.userID,
                                 gameID: gameID,
                               );
-                              debugPrint('[APP]getUserCurrencyResult: $getUserCurrencyResult');
+                              debugPrint(
+                                  '[APP]getUserCurrencyResult: $getUserCurrencyResult');
                             } catch (e) {
                               showSnackBar('getUserCurrency:$e');
                             }
@@ -130,8 +148,12 @@ class ZegoMiniGamePageState extends State<ZegoMiniGamePage> {
                         setState(() => playing = false);
                       }
                     },
-                    label: playing ? const Text('Quit Game') : const Text('Game List'),
-                    icon: playing ? const Icon(Icons.arrow_back) : const Icon(Icons.games),
+                    label: playing
+                        ? const Text('Quit Game')
+                        : const Text('Game List'),
+                    icon: playing
+                        ? const Icon(Icons.arrow_back)
+                        : const Icon(Icons.games),
                   ),
                 ),
               )

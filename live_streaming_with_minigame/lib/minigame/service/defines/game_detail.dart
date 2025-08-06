@@ -23,7 +23,8 @@ class ZegoGameDetail {
     mgName = json['mgName'];
     mgUrl = json['mgUrl'];
     gameOrientation = json['gameOrientation'];
-    gameMode = json['gameMode'] == null ? null : List<int>.from(json['gameMode']);
+    gameMode =
+        json['gameMode'] == null ? null : List<int>.from(json['gameMode']);
     designWidth = json['designWidth'];
     designHeight = json['designHeight'];
     safeHeight = json['safeHeight'];

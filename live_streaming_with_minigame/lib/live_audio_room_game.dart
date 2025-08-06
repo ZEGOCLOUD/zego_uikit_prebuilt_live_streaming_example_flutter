@@ -17,7 +17,10 @@ class InRoomGameController {
   StreamSubscription<dynamic>? _subscription;
 
   void init() {
-    _subscription = ZegoUIKit().getSignalingPlugin().getRoomPropertiesStream().listen(onGameRoomAttributesUpdated);
+    _subscription = ZegoUIKit()
+        .getSignalingPlugin()
+        .getRoomPropertiesStream()
+        .listen(onGameRoomAttributesUpdated);
     ZegoMiniGame().loadedStateNotifier.addListener(onloadedStateUpdated);
   }
 
@@ -38,7 +41,8 @@ class InRoomGameController {
             .getSignalingPlugin()
             .queryRoomProperties(roomID: roomID)
             .then((ZegoSignalingPluginQueryRoomPropertiesResult result) {
-          if (result.error == null && result.properties.containsKey(attributeKeyRoomGame)) {
+          if (result.error == null &&
+              result.properties.containsKey(attributeKeyRoomGame)) {
             final gameID = result.properties[attributeKeyRoomGame]!;
             // If a player or audience clicks the close button in the game and unloads the game,
             // but the game is still ongoing in the room, the game will automatically reload here.
@@ -54,7 +58,8 @@ class InRoomGameController {
   Widget gameView() {
     return ValueListenableBuilder(
       valueListenable: ZegoMiniGame().loadedStateNotifier,
-      builder: (context, bool loaded, child) => Offstage(offstage: !loaded, child: child),
+      builder: (context, bool loaded, child) =>
+          Offstage(offstage: !loaded, child: child),
       child: InAppWebView(
         initialFile: 'assets/minigame/index.html',
         onWebViewCreated: (InAppWebViewController controller) async {
@@ -72,7 +77,8 @@ class InRoomGameController {
             token: token,
             userID: userID,
             userName: userName,
-            avatarUrl: Uri.encodeComponent('https://robohash.org/$userID.png?set=set4'),
+            avatarUrl: Uri.encodeComponent(
+                'https://robohash.org/$userID.png?set=set4'),
             language: GameLanguage.english,
           );
         },
@@ -132,11 +138,14 @@ class InRoomGameController {
           if (gameInfo != null) {
             updateGameRoomAttributes(gameInfo.miniGameId!).then((result) async {
               if (result.error != null) {
-                ZegoLoggerService.logError('updateRoomProperty failed, ${result.error} ',
-                    tag: 'APP', subTag: 'minigame');
+                ZegoLoggerService.logError(
+                    'updateRoomProperty failed, ${result.error} ',
+                    tag: 'APP',
+                    subTag: 'minigame');
                 showSnackBar('updateRoomProperty failed, ${result.error} ');
               } else {
-                ZegoLoggerService.logInfo('updateRoomProperty success ', tag: 'APP', subTag: 'minigame');
+                ZegoLoggerService.logInfo('updateRoomProperty success ',
+                    tag: 'APP', subTag: 'minigame');
               }
             });
           }
@@ -163,14 +172,16 @@ class InRoomGameController {
       showSnackBar('loadGame:$e');
     }
     try {
-      final exchangeUserCurrencyResult = await YourGameServer().exchangeUserCurrency(
+      final exchangeUserCurrencyResult =
+          await YourGameServer().exchangeUserCurrency(
         appID: yourAppID,
         gameID: gameID,
         userID: userID,
         exchangeValue: 100,
         outOrderId: DateTime.now().millisecondsSinceEpoch.toString(),
       );
-      debugPrint('[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
+      debugPrint(
+          '[APP]exchangeUserCurrencyResult: $exchangeUserCurrencyResult');
     } catch (e) {
       showSnackBar('exchangeUserCurrency:$e');
     }
@@ -198,17 +209,24 @@ class InRoomGameController {
   }
 
   Future<void> startGame(List<String> playWithUserID) async {
-    final gameInfo = ZegoMiniGame().getAllGameList().value.firstWhere((e) => e.miniGameId == currentGameID!);
+    final gameInfo = ZegoMiniGame()
+        .getAllGameList()
+        .value
+        .firstWhere((e) => e.miniGameId == currentGameID!);
     final gameMaxPlayer = gameInfo.detail!.player.reduce(max);
     await ZegoMiniGame().startGame(
       playerList: [
-        ...playWithUserID.asMap().entries.map((e) => ZegoPlayer(seatIndex: e.key, userID: e.value)),
+        ...playWithUserID
+            .asMap()
+            .entries
+            .map((e) => ZegoPlayer(seatIndex: e.key, userID: e.value)),
       ],
       robotList: playWithUserID.length < gameMaxPlayer
           ? List.generate(
               gameMaxPlayer - playWithUserID.length,
               (index) => ZegoGameRobot(
-                robotAvatar: 'https://robohash.org/${Random().nextInt(1000000)}.png',
+                robotAvatar:
+                    'https://robohash.org/${Random().nextInt(1000000)}.png',
                 seatIndex: playWithUserID.length + index,
                 robotName: faker.person.name(),
                 robotCoin: 1000,
@@ -229,7 +247,10 @@ class InRoomGameController {
   ) {
     if (propertiesData.setProperties.containsKey(attributeKeyRoomGame)) {
       final gameID = propertiesData.setProperties[attributeKeyRoomGame]!;
-      ZegoLoggerService.logInfo('onGameRoomAttributesUpdated, loadGame: $gameID', tag: 'APP', subTag: 'minigame');
+      ZegoLoggerService.logInfo(
+          'onGameRoomAttributesUpdated, loadGame: $gameID',
+          tag: 'APP',
+          subTag: 'minigame');
 
       final gameList = ZegoMiniGame().getAllGameList();
 
@@ -249,13 +270,18 @@ class InRoomGameController {
       }
     }
     if (propertiesData.deleteProperties.containsKey(attributeKeyRoomGame)) {
-      ZegoLoggerService.logInfo('onGameRoomAttributesUpdated, unloadGame', tag: 'APP', subTag: 'minigame');
+      ZegoLoggerService.logInfo('onGameRoomAttributesUpdated, unloadGame',
+          tag: 'APP', subTag: 'minigame');
       unloadGame();
     }
   }
 
-  Future<ZegoSignalingPluginRoomPropertiesOperationResult> updateGameRoomAttributes(String gameID) async {
-    ZegoLoggerService.logInfo('updateGameRoomAttributes $attributeKeyRoomGame:$gameID', tag: 'APP', subTag: 'minigame');
+  Future<ZegoSignalingPluginRoomPropertiesOperationResult>
+      updateGameRoomAttributes(String gameID) async {
+    ZegoLoggerService.logInfo(
+        'updateGameRoomAttributes $attributeKeyRoomGame:$gameID',
+        tag: 'APP',
+        subTag: 'minigame');
     return ZegoUIKit().getSignalingPlugin().updateRoomProperty(
           roomID: roomID,
           key: attributeKeyRoomGame,
@@ -266,8 +292,10 @@ class InRoomGameController {
         );
   }
 
-  Future<ZegoSignalingPluginRoomPropertiesOperationResult> deleteGameRoomAttributes() async {
-    ZegoLoggerService.logInfo('deleteGameRoomAttributes $attributeKeyRoomGame', tag: 'APP', subTag: 'minigame');
+  Future<ZegoSignalingPluginRoomPropertiesOperationResult>
+      deleteGameRoomAttributes() async {
+    ZegoLoggerService.logInfo('deleteGameRoomAttributes $attributeKeyRoomGame',
+        tag: 'APP', subTag: 'minigame');
     return ZegoUIKit().getSignalingPlugin().deleteRoomProperties(
           roomID: roomID,
           keys: [attributeKeyRoomGame],
